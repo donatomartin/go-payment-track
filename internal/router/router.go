@@ -4,12 +4,34 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"os"
 
 	"pagos-cesar/internal/handler"
 	"pagos-cesar/internal/middleware"
 	"pagos-cesar/internal/service"
 	"pagos-cesar/web"
 )
+
+// noListFileSystem is a custom file system that prevents directory listing.
+type noListFileSystem struct {
+	fs http.FileSystem
+}
+
+// Open opens the file with the given name, but returns os.ErrNotExist for directories.
+func (nlfs noListFileSystem) Open(name string) (http.File, error) {
+	f, err := nlfs.fs.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	s, err := f.Stat()
+	if err != nil {
+		return nil, err
+	}
+	if s.IsDir() {
+		return nil, os.ErrNotExist
+	}
+	return f, nil
+}
 
 func NewRouter(paymentService service.PaymentService, logger *log.Logger) http.Handler {
 	mux := http.NewServeMux()
@@ -32,7 +54,7 @@ func NewRouter(paymentService service.PaymentService, logger *log.Logger) http.H
 	dashboardHandler := handler.NewDashboardHandler(logger, templateFS)
 	mux.Handle("/", dashboardHandler)
 
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
+	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(noListFileSystem{http.FS(staticFS)})))
 
 	// Wrap with fallback 404 handler
 	return middleware.Logging(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
