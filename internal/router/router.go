@@ -1,6 +1,8 @@
 package router
 
 import (
+	"embed"
+	"io/fs"
 	"log"
 	"net/http"
 
@@ -9,19 +11,26 @@ import (
 	"pagos-cesar/internal/service"
 )
 
+var staticFiles embed.FS
+
 func NewRouter(paymentService service.PaymentService, logger *log.Logger) http.Handler {
 	mux := http.NewServeMux()
 
+	fs, err := fs.Sub(staticFiles, "web/static")
+	if err != nil {
+		log.Fatalf("failed to create sub file system: %v", err)
+	}
+
 	// API Handlers
+	apiRouter := http.NewServeMux()
 	paymentHandler := handler.NewPaymentHandler(paymentService, logger)
-	mux.Handle("/api/v1/payments", paymentHandler)
+	apiRouter.Handle("/api/v1/payments", paymentHandler)
 
-	// Html Handlers
+	// Web Handlers
+	webRouter := http.NewServeMux()
 	dashboardHandler := handler.NewDashboardHandler(logger)
-	mux.Handle("/", dashboardHandler)
-
-	// Static files
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))))
+	webRouter.Handle("/", dashboardHandler)
+	webRouter.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(fs))))
 
 	// Wrap with fallback 404 handler
 	return middleware.Logging(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
