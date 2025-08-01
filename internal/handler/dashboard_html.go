@@ -2,6 +2,7 @@ package handler
 
 import (
 	"html/template"
+	"io/fs"
 	"log"
 	"net/http"
 )
@@ -11,13 +12,13 @@ type DashboardHandler struct {
 	templates *template.Template
 }
 
-func NewDashboardHandler(logger *log.Logger) *DashboardHandler {
+func NewDashboardHandler(logger *log.Logger, templates fs.FS) *DashboardHandler {
 
-	templates := template.Must(template.ParseGlob("web/templates/*.html"))
+	t := template.Must(template.ParseFS(templates, "*.html"))
 
 	return &DashboardHandler{
 		logger:    logger,
-		templates: templates,
+		templates: t,
 	}
 }
 
