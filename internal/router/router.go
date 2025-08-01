@@ -54,7 +54,11 @@ func NewRouter(paymentService service.PaymentService, logger *log.Logger) http.H
 	dashboardHandler := handler.NewDashboardHandler(logger, templateFS)
 	mux.Handle("/", dashboardHandler)
 
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(noListFileSystem{http.FS(staticFS)})))
+	fileServer := http.FileServer(noListFileSystem{http.FS(staticFS)})
+	mux.Handle("/static/", http.StripPrefix("/static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Serving static file: %s", r.URL.Path)
+		fileServer.ServeHTTP(w, r)
+	})))
 
 	// Wrap with fallback 404 handler
 	return middleware.Logging(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
