@@ -1,4 +1,4 @@
-package handler
+package v1apihandler
 
 import (
 	"encoding/json"
@@ -20,7 +20,11 @@ func NewPaymentHandler(service service.PaymentService, logger *log.Logger) *Paym
 	}
 }
 
-func (h *PaymentHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *PaymentHandler) RegisterRoutes(mux *http.ServeMux) {
+	mux.HandleFunc("/api/v1/payments", h.getPayments)
+}
+
+func (h *PaymentHandler) getPayments(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

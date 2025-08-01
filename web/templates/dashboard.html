@@ -1,28 +1,21 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{.Title}}</title>
-    <link rel="stylesheet" href="/static/style.css" />
-    <script src="/static/htmx.min.js"></script>
-  </head>
+{{ define "content" }}
+<div class="text-center">
+  <h2>Dashboard</h2>
+  <p>Welcome to your dashboard!</p>
 
-  <body>
-    <h1>{{.Title}}</h1>
-
-    <div class="container">
-      <div class="card">
-        <h2>Payments</h2>
-        <div
-          id="payments"
-          hx-get="/api/v1/payments"
-          hx-trigger="load"
-          hx-target="#payments"
-        >
-          <p>Loading payments...</p>
-        </div>
+  <h3 class="mb-3">Recent Payments</h3>
+  {{ if .Payments }}
+  <ul>
+    {{ range .Payments }}
+    <li>
+      <div class="bg-red-100 w-24">
+        <p>{{ .Amount }}</p>
       </div>
-    </div>
-  </body>
-</html>
+    </li>
+    {{ end }}
+  </ul>
+  {{ else }}
+  <p>No recent payments found.</p>
+  {{ end }}
+</div>
+{{ end }} {{ template "layout" .}}
