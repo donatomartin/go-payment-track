@@ -16,7 +16,7 @@ func NewRouter(paymentService service.PaymentService, logger *log.Logger) http.H
 	paymentHandler := handler.NewPaymentHandler(paymentService, logger)
 	mux.Handle("/api/v1/payments", paymentHandler)
 
-	// Dashboard Html
+	// Html Handlers
 	dashboardHandler := handler.NewDashboardHandler(logger)
 	mux.Handle("/", dashboardHandler)
 
