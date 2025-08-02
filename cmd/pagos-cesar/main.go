@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"pagos-cesar/internal/config"
-	"pagos-cesar/internal/repository"
+	"pagos-cesar/internal/database"
+	"pagos-cesar/internal/payment"
 	"pagos-cesar/internal/router"
-	"pagos-cesar/internal/service"
 )
 
 func main() {
@@ -34,7 +34,7 @@ func main() {
 	logger := log.New(io.MultiWriter(os.Stdout, logFile), "pagos-cesar", log.LstdFlags)
 
 	// Setup DB
-	db, err := repository.NewPostgresDB(cfg.DatabaseURL)
+	db, err := database.NewPostgresDB(cfg.DatabaseURL)
 	if err != nil {
 		logger.Fatalf("Failed to connect to database: %v", err)
 	}
@@ -44,7 +44,7 @@ func main() {
 	if cfg.Env == "dev" {
 
 		// Apply schema if in dev
-		if err := repository.ApplySchema(db); err != nil {
+		if err := database.ApplySchema(db); err != nil {
 			logger.Fatalf("Schema setup failed: %v", err)
 
 		} else {
@@ -52,7 +52,7 @@ func main() {
 		}
 
 		// Insert sample data if in dev
-		if err := repository.InsertSampleData(db); err != nil {
+		if err := database.InsertSampleData(db); err != nil {
 			logger.Fatalf("Failed to insert sample data: %v", err)
 		} else {
 			logger.Println("Sample data inserted successfully")
@@ -61,8 +61,8 @@ func main() {
 	}
 
 	// Initialize repositories and services
-	paymentRepo := repository.NewPaymentRepository(db)
-	paymentService := service.NewPaymentService(paymentRepo)
+	paymentRepo := payment.NewPaymentRepository(db)
+	paymentService := payment.NewPaymentService(paymentRepo)
 
 	// Setup HTTP server
 	srv := &http.Server{

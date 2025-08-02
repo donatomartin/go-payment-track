@@ -1,4 +1,4 @@
-package handler
+package static
 
 import (
 	"io/fs"
@@ -56,4 +56,3 @@ func (sh *StaticHandler) RegisterRoutes(mux *http.ServeMux) {
 
 	mux.Handle("/static/", h)
 }
-

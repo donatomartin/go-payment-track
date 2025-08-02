@@ -1,4 +1,4 @@
-package repository
+package database
 
 import (
 	"database/sql"
@@ -12,7 +12,7 @@ func ApplySchema(db *sql.DB) error {
 				invoice_id VARCHAR(255) NOT NULL,
         amount NUMERIC(10, 2) NOT NULL,
 				date TIMESTAMP NOT NULL,
-        created_at TIMESTAMP DEFAULT now()
+        created_at TIMESTAMP DEFAULT now(),
 				updated_at TIMESTAMP DEFAULT now()
     );
 		CREATE TABLE IF NOT EXISTS invoices (
@@ -22,7 +22,7 @@ func ApplySchema(db *sql.DB) error {
 				payment_mean VARCHAR(50),
 				invoice_date TIMESTAMP NOT NULL,
 				due_date TIMESTAMP,
-				created_at TIMESTAMP DEFAULT now()
+				created_at TIMESTAMP DEFAULT now(),
 				updated_at TIMESTAMP DEFAULT now()
 		);
     `

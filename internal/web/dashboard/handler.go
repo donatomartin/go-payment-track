@@ -1,4 +1,4 @@
-package webhandler
+package dashboard
 
 import (
 	"html/template"
@@ -6,18 +6,17 @@ import (
 	"log"
 	"net/http"
 
-	"pagos-cesar/internal/repository"
-	"pagos-cesar/internal/service"
+	"pagos-cesar/internal/payment"
 	"pagos-cesar/web"
 )
 
 type DashboardHandler struct {
 	logger    *log.Logger
 	templates *template.Template
-	service   service.PaymentService
+	service   payment.PaymentService
 }
 
-func NewDashboardHandler(service service.PaymentService, logger *log.Logger) *DashboardHandler {
+func NewDashboardHandler(service payment.PaymentService, logger *log.Logger) *DashboardHandler {
 
 	templateFS, err := fs.Sub(web.WebFS, "templates")
 	if err != nil {
@@ -47,7 +46,7 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 
 	data := struct {
 		Title    string
-		Payments []repository.Payment
+		Payments []payment.Payment
 	}{
 		Title:    "Dashboard",
 		Payments: payments,

@@ -1,30 +1,28 @@
-package v1apihandler
+package payment
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"pagos-cesar/internal/service"
 )
 
-type PaymentHandler struct {
-	service service.PaymentService
+type ApiPaymentHandler struct {
+	service PaymentService
 	logger  *log.Logger
 }
 
-func NewPaymentHandler(service service.PaymentService, logger *log.Logger) *PaymentHandler {
-	return &PaymentHandler{
+func NewApiPaymentHandler(service PaymentService, logger *log.Logger) *ApiPaymentHandler {
+	return &ApiPaymentHandler{
 		service: service,
 		logger:  logger,
 	}
 }
 
-func (h *PaymentHandler) RegisterRoutes(mux *http.ServeMux) {
+func (h *ApiPaymentHandler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/api/v1/payments", h.getPayments)
 }
 
-func (h *PaymentHandler) getPayments(w http.ResponseWriter, r *http.Request) {
+func (h *ApiPaymentHandler) getPayments(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

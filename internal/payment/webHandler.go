@@ -1,4 +1,4 @@
-package webhandler
+package payment
 
 import (
 	"html/template"
@@ -6,17 +6,16 @@ import (
 	"log"
 	"net/http"
 
-	"pagos-cesar/internal/service"
 	"pagos-cesar/web"
 )
 
-type PaymentHandler struct {
-	service   service.PaymentService
+type WebPaymentHandler struct {
+	service   PaymentService
 	logger    *log.Logger
 	templates *template.Template
 }
 
-func NewPaymentHandler(service service.PaymentService, logger *log.Logger) *PaymentHandler {
+func NewWebPaymentHandler(service PaymentService, logger *log.Logger) *WebPaymentHandler {
 
 	templateFS, err := fs.Sub(web.WebFS, "templates")
 	if err != nil {
@@ -24,18 +23,18 @@ func NewPaymentHandler(service service.PaymentService, logger *log.Logger) *Paym
 	}
 	t := template.Must(template.ParseFS(templateFS, "*.html"))
 
-	return &PaymentHandler{
+	return &WebPaymentHandler{
 		service:   service,
 		logger:    logger,
 		templates: t,
 	}
 }
 
-func (h *PaymentHandler) RegisterRoutes(mux *http.ServeMux) {
+func (h *WebPaymentHandler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/payments", h.getPayments)
 }
 
-func (h *PaymentHandler) getPayments(w http.ResponseWriter, r *http.Request) {
+func (h *WebPaymentHandler) getPayments(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
