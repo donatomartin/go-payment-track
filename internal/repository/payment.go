@@ -6,8 +6,12 @@ import (
 )
 
 type Payment struct {
-	ID     int
-	Amount float64
+	ID        int
+	InvoiceID string
+	Amount    float64
+	Date      string
+	CreatedAt string
+	UpdatedAt string
 }
 
 type PaymentRepository interface {
@@ -35,6 +39,34 @@ func (r *paymentRepository) GetAll(ctx context.Context) ([]Payment, error) {
 		if err := rows.Scan(&payment.ID, &payment.Amount); err != nil {
 			return nil, err
 		}
+		payments = append(payments, payment)
+	}
+
+	return payments, nil
+
+}
+
+func (r *paymentRepository) GetPaged(ctx context.Context, sortBy, sortDir string, offset, limit int) ([]Payment, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT * FROM payments ORDER BY $1 $2 OFFSET $3 LIMIT $4", sortBy, sortDir, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var payments []Payment
+	for rows.Next() {
+		var payment Payment
+		if err := rows.Scan(
+			&payment.ID,
+			&payment.InvoiceID,
+			&payment.Amount,
+			&payment.Date,
+			&payment.CreatedAt,
+			&payment.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+
 		payments = append(payments, payment)
 	}
 
