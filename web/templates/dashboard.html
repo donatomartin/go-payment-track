@@ -1,21 +1,172 @@
 {{ define "content" }}
-<div class="text-center">
-  <h2>Dashboard</h2>
-  <p>Welcome to your dashboard!</p>
+<div class="flex min-h-screen bg-gray-900 text-gray-100">
 
-  <h3 class="mb-3">Recent Payments</h3>
-  {{ if .Payments }}
-  <ul>
-    {{ range .Payments }}
-    <li>
-      <div class="bg-red-100 w-24">
-        <p>{{ .Amount }}</p>
+  <!-- Sidebar -->
+  <aside class="w-64 bg-black p-6 flex flex-col justify-between">
+    <nav class="space-y-4">
+      <button class="flex items-center space-x-2 text-sm">
+        <span>⚙️</span><span>Ajustes</span>
+      </button>
+      <button class="flex items-center space-x-2 text-sm">
+        <span>➕</span><span>Añadir Pago</span>
+      </button>
+      <button class="flex items-center space-x-2 text-sm">
+        <span>➕</span><span>Añadir Cobro</span>
+      </button>
+    </nav>
+  </aside>
+  <!-- Main content -->
+  <main class="flex-1 p-6 space-y-8">
+    <!-- Pending Transactions & Overview -->
+    <div class="grid lg:grid-cols-2 gap-6">
+      <!-- Pending Transactions -->
+      <div class="bg-gray-800 p-6 rounded-lg space-y-4">
+        <h3 class="text-lg font-semibold">Cobros</h3>
+        <ul class="space-y-3">
+          <li class="flex justify-between items-center">
+            <span class="flex items-center space-x-2"><span>🔔</span><span>Cobros Completados</span></span>
+            <span>1</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="flex items-center space-x-2"><span>💵</span><span>Cobros Pendientes</span></span>
+            <span>4</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Pendiente</span></span>
+            <span>$0.00</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="flex items-center space-x-2"><span>📅</span><span>Cobros Demorados</span></span>
+            <span>5</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Demorada</span></span>
+            <span>$0.00</span>
+          </li>
+        </ul>
       </div>
-    </li>
-    {{ end }}
-  </ul>
-  {{ else }}
-  <p>No recent payments found.</p>
-  {{ end }}
+      <!-- Transactions Overview -->
+      <div class="bg-gray-800 p-6 rounded-lg">
+        <h3 class="text-lg font-semibold">Pagos</h3>
+        <table class="w-full mt-4 text-sm">
+          <thead class="border-b border-gray-700">
+            <tr>
+              <th class="text-left py-2">Num. Factura</th>
+              <th class="text-left py-2">Cliente</th>
+              <th class="text-left py-2">Fecha</th>
+              <th class="text-right py-2">Cantidad</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700">
+            <tr>
+              <td class="py-2">43250807</td>
+              <td>Alice Johnson</td>
+              <td>
+                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
+              </td>
+              <td class="text-right">$150.00</td>
+            </tr>
+            <tr>
+              <td class="py-2">43250807</td>
+              <td>Robert Green</td>
+              <td>
+                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
+              </td>
+              <td class="text-right">$75.50</td>
+            </tr>
+            <tr>
+              <td class="py-2">43250807</td>
+              <td>Emma White</td>
+              <td>
+                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
+              </td>
+              <td class="text-right">$450.25</td>
+            </tr>
+            <tr>
+              <td class="py-2">43250807</td>
+              <td>Liam Brown</td>
+              <td>
+                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
+              </td>
+              <td class="text-right">$120.00</td>
+            </tr>
+            <tr>
+              <td class="py-2">43250807</td>
+              <td>Sophia Lee</td>
+              <td>
+                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
+              </td>
+              <td class="text-right">$275.75</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Quick Links -->
+    <div class="bg-gray-800 p-6 rounded-lg">
+      <h3 class="text-lg font-semibold mb-4">Acceso Rápido</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
+          <span>📝</span><span>+ Nuevo Cobro</span>
+        </button>
+        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
+          <span>📄</span><span>+ Nuevo Pago</span>
+        </button>
+        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
+          <span>📊</span><span>Generar Reporte</span>
+        </button>
+        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
+          <span>✈️</span><span>Exportar Datos</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="bg-gray-800 p-6 rounded-lg space-y-6">
+      <h3 class="text-lg font-semibold">Estadísticas</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Facturación Anual -->
+        <div>
+          <h4 class="text-sm uppercase mb-2">Facturación Anual</h4>
+          <div class="bg-gray-700 p-4 rounded-lg">
+            <div class="flex items-end h-40 space-x-2">
+              <div class="w-1/6 h-8 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-4 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-28 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-20 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-16 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-12 bg-gray-600 rounded-t"></div>
+            </div>
+            <div class="flex justify-between text-xs mt-2">
+              <span>2020</span><span>2021</span><span>2022</span><span>2023</span><span>2024</span><span>2025</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Facturación Mensual -->
+        <div>
+          <div class="flex">
+            <h4 class="text-sm uppercase mb-2">Facturación Mensual</h4>
+          </div>
+          <div class="bg-gray-700 p-4 rounded-lg">
+            <div class="flex items-end h-40 space-x-2">
+              <div class="w-1/6 h-8 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-4 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-28 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-20 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-16 bg-gray-600 rounded-t"></div>
+              <div class="w-1/6 h-12 bg-gray-600 rounded-t"></div>
+            </div>
+            <div class="flex justify-between text-xs mt-2">
+              <span>Enero 2025</span><span>Febrero 2025</span><span>Marzo 2025</span><span>Abril 2025</span><span>Mayo
+                2025</span><span>Junio 2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
-{{ end }} {{ template "layout" .}}
+{{ end }}
+
+{{ template "layout" . }}
