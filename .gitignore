@@ -4,3 +4,4 @@ style.css
 node_modules
 *.xlsx
 *#
+test.go
