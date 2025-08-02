@@ -3,11 +3,11 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
+	_ "modernc.org/sqlite"
 )
 
 func NewPostgresDB(dataSourceName string) (*sql.DB, error) {
-	db, err := sql.Open("postgres", dataSourceName)
+	db, err := sql.Open("sqlite", dataSourceName)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to open database: %w", err)
 	}
