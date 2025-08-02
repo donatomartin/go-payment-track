@@ -10,10 +10,10 @@ import (
 	"syscall"
 	"time"
 
-	"pagos-cesar/internal/config"
-	"pagos-cesar/internal/database"
 	"pagos-cesar/internal/payment"
-	"pagos-cesar/internal/router"
+	"pagos-cesar/internal/platform/config"
+	"pagos-cesar/internal/platform/database"
+	"pagos-cesar/internal/platform/router"
 )
 
 func main() {

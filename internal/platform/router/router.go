@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"pagos-cesar/internal/middleware"
 	"pagos-cesar/internal/payment"
+	"pagos-cesar/internal/platform/middleware"
 	"pagos-cesar/internal/web/dashboard"
 	"pagos-cesar/internal/web/static"
 )
