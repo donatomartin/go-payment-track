@@ -1,2 +1,5 @@
 app.log
 tmp
+style.css
+node_modules
+*.xlsx
