@@ -1,11 +1,11 @@
 package payment
 
 import (
+	"app/internal/platform/testutil"
 	"bytes"
 	"encoding/json"
 	"log"
 	"os"
-	"pagos-cesar/internal/testutil"
 	"testing"
 )
 
@@ -13,7 +13,7 @@ func TestGetPayments(t *testing.T) {
 
 	db := testutil.SetupTestDB(t)
 
-	logger := log.New(os.Stdout, "pagos-cesar-test", log.LstdFlags)
+	logger := log.New(os.Stdout, "app-test", log.LstdFlags)
 	repo := NewPaymentRepository(db)
 	service := NewPaymentService(repo)
 	apiHandler := NewApiPaymentHandler(service, logger)

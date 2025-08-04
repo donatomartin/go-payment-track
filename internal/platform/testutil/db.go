@@ -1,8 +1,8 @@
 package testutil
 
 import (
+	"app/internal/platform/database"
 	"database/sql"
-	"pagos-cesar/internal/platform/database"
 	"testing"
 
 	_ "modernc.org/sqlite"

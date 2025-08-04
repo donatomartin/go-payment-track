@@ -4,13 +4,14 @@ import (
 	"log"
 	"net/http"
 
-	"pagos-cesar/internal/payment"
-	"pagos-cesar/internal/platform/middleware"
-	"pagos-cesar/internal/web/dashboard"
-	"pagos-cesar/internal/web/static"
+	"app/internal/invoice"
+	"app/internal/payment"
+	"app/internal/platform/middleware"
+	"app/internal/web/dashboard"
+	"app/internal/web/static"
 )
 
-func NewRouter(paymentService payment.PaymentService, logger *log.Logger) http.Handler {
+func NewRouter(paymentService payment.PaymentService, invoiceService invoice.InvoiceService, logger *log.Logger) http.Handler {
 
 	mux := http.NewServeMux()
 
@@ -18,22 +19,12 @@ func NewRouter(paymentService payment.PaymentService, logger *log.Logger) http.H
 	payment.NewApiPaymentHandler(paymentService, logger).RegisterRoutes(mux)
 
 	// Web Handlers
-	dashboard.NewDashboardHandler(paymentService, logger).RegisterRoutes(mux)
-	payment.NewWebPaymentHandler(paymentService, logger).RegisterRoutes(mux)
+	dashboard.NewDashboardHandler(paymentService, invoiceService, logger).RegisterRoutes(mux)
 
 	// Static Handlers
 	static.NewStaticHandler(logger).RegisterRoutes(mux)
 
 	// Wrap with fallback 404 handler
-	return middleware.Logging(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		handler, pattern := mux.Handler(r)
-		if pattern == "" {
-			logger.Printf("404 Not Found: %s %s", r.Method, r.URL.Path)
-			http.NotFound(w, r)
-			return
-		}
-		handler.ServeHTTP(w, r)
-	}), logger)
+	return middleware.Logging(mux, logger)
 
 }

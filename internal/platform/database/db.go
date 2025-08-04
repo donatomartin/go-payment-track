@@ -6,7 +6,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-func NewPostgresDB(dataSourceName string) (*sql.DB, error) {
+func NewDB(dataSourceName string) (*sql.DB, error) {
 	db, err := sql.Open("sqlite", dataSourceName)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to open database: %w", err)

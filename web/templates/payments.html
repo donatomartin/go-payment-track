@@ -1,0 +1,29 @@
+{{ define "payments" }}
+<div class="bg-gray-800 p-6 rounded-lg">
+  <h3 class="text-lg font-semibold">Pagos</h3>
+  <table class="w-full mt-4 text-sm">
+    <thead class="border-b border-gray-700">
+      <tr>
+        <th class="text-left py-2">Num. Pago</th>
+        <th class="text-left py-2">Num. Factura</th>
+        <th class="text-left py-2">Cliente</th>
+        <th class="text-left py-2">Fecha</th>
+        <th class="text-right py-2">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-700">
+      {{ range .Payments }}
+      <tr class="hover:bg-gray-700 transition-colors">
+        <td class="py-2">{{ .ID }}</td>
+        <td class="py-2">{{ .InvoiceID }}</td>
+        <td class="py-2">{{ .ClientName }}</td>
+        <td>
+          <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">{{ .Date }}</span>
+        </td>
+        <td class="text-right">{{ .Amount }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

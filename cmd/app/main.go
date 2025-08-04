@@ -10,10 +10,11 @@ import (
 	"syscall"
 	"time"
 
-	"pagos-cesar/internal/payment"
-	"pagos-cesar/internal/platform/config"
-	"pagos-cesar/internal/platform/database"
-	"pagos-cesar/internal/platform/router"
+	"app/internal/invoice"
+	"app/internal/payment"
+	"app/internal/platform/config"
+	"app/internal/platform/database"
+	"app/internal/platform/router"
 )
 
 func main() {
@@ -31,10 +32,10 @@ func main() {
 	defer logFile.Close()
 
 	// Setup logger
-	logger := log.New(io.MultiWriter(os.Stdout, logFile), "pagos-cesar", log.LstdFlags)
+	logger := log.New(io.MultiWriter(os.Stdout, logFile), "app", log.LstdFlags)
 
 	// Setup DB
-	db, err := database.NewPostgresDB(cfg.DatabaseURL)
+	db, err := database.NewDB(cfg.DatabaseURL)
 	if err != nil {
 		logger.Fatalf("Failed to connect to database: %v", err)
 	}
@@ -51,23 +52,19 @@ func main() {
 			logger.Println("Schema applied successfully")
 		}
 
-		// Insert sample data if in dev
-		if err := database.InsertSampleData(db); err != nil {
-			logger.Fatalf("Failed to insert sample data: %v", err)
-		} else {
-			logger.Println("Sample data inserted successfully")
-		}
-
 	}
 
 	// Initialize repositories and services
 	paymentRepo := payment.NewPaymentRepository(db)
 	paymentService := payment.NewPaymentService(paymentRepo)
 
+	invoiceRepo := invoice.NewInvoiceRepository(db)
+	invoiceService := invoice.NewInvoiceService(*invoiceRepo)
+
 	// Setup HTTP server
 	srv := &http.Server{
 		Addr:         ":" + cfg.Port,
-		Handler:      router.NewRouter(paymentService, logger),
+		Handler:      router.NewRouter(paymentService, *invoiceService, logger),
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  60 * time.Second,

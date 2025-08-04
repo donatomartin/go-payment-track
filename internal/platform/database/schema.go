@@ -19,7 +19,7 @@ func GetSchema() string {
 		DROP TABLE IF EXISTS invoices;
 		CREATE TABLE IF NOT EXISTS invoices (
 				id TEXT PRIMARY KEY,				
-				customer_id INT NOT NULL,
+				customer_name TEXT NOT NULL,
 				amount_due NUMERIC NOT NULL,
 				payment_mean TEXT NOT NULL, 
 				invoice_date TIMESTAMP NOT NULL,

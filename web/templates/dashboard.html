@@ -39,105 +39,83 @@
   </aside>
   <!-- Main content -->
   <main class="flex-1 p-6 space-y-8">
-    <!-- Pending Transactions & Overview -->
+    <!-- Facturas y Pagos -->
     <div class="grid lg:grid-cols-2 gap-6">
-      <!-- Pending Transactions -->
-      <div class="bg-gray-800 p-6 rounded-lg space-y-4">
-        <h3 class="text-lg font-semibold">Cobros</h3>
+      <!-- Facturas -->
+      <div class="bg-gray-800 p-6 rounded-lg space-y-4 h-96">
+        <h3 class="text-lg font-semibold">Facturas</h3>
         <ul class="space-y-3">
           <li class="flex justify-between items-center">
-            <span class="flex items-center space-x-2"><span>🔔</span><span>Cobros Completados</span></span>
-            <span>1</span>
+            <button
+              class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+              <span class="rounded-lg flex items-center space-x-2"><span>🔔</span><span>Facturas
+                  Completadas</span></span>
+              <span class="">1</span>
+            </button>
           </li>
           <li class="flex justify-between items-center">
-            <span class="flex items-center space-x-2"><span>💵</span><span>Cobros Pendientes</span></span>
-            <span>4</span>
+
+            <button
+              class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+              <span class="flex items-center space-x-2"><span>💵</span><span>Facturas Pendientes</span></span>
+              <span>{{ .PendingInvoicesCount }}</span>
+            </button>
           </li>
           <li class="flex justify-between items-center">
-            <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Pendiente</span></span>
-            <span>$0.00</span>
+
+            <button
+              class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+              <span class="flex items-center space-x-2"><span>📅</span><span>Facturas Demoradas</span></span>
+              <span>{{ .DelayedInvoicesCount }}</span>
+            </button>
           </li>
           <li class="flex justify-between items-center">
-            <span class="flex items-center space-x-2"><span>📅</span><span>Cobros Demorados</span></span>
-            <span>5</span>
+
+            <button
+              class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+              <span class="flex items-center space-x-2"><span>🕑</span><span>Facturas en proceso de pago</span></span>
+              <span>5</span>
+            </button>
           </li>
-          <li class="flex justify-between items-center">
-            <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Demorada</span></span>
-            <span>$0.00</span>
+          <li class="flex gap-2 justify-between items-center">
+
+            <button
+              class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+              <span class="flex items-center space-x-2"><span>📊</span><span>Facturación Pendiente</span></span>
+              <span>$0.00</span>
+            </button>
+            <button
+              class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+
+              <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Demorada</span></span>
+              <span>$0.00</span>
+            </button>
           </li>
         </ul>
       </div>
-      <!-- Transactions Overview -->
-      <div class="bg-gray-800 p-6 rounded-lg">
-        <h3 class="text-lg font-semibold">Pagos</h3>
-        <table class="w-full mt-4 text-sm">
-          <thead class="border-b border-gray-700">
-            <tr>
-              <th class="text-left py-2">Num. Factura</th>
-              <th class="text-left py-2">Cliente</th>
-              <th class="text-left py-2">Fecha</th>
-              <th class="text-right py-2">Cantidad</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-700">
-            <tr>
-              <td class="py-2">43250807</td>
-              <td>Alice Johnson</td>
-              <td>
-                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
-              </td>
-              <td class="text-right">$150.00</td>
-            </tr>
-            <tr>
-              <td class="py-2">43250807</td>
-              <td>Robert Green</td>
-              <td>
-                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
-              </td>
-              <td class="text-right">$75.50</td>
-            </tr>
-            <tr>
-              <td class="py-2">43250807</td>
-              <td>Emma White</td>
-              <td>
-                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
-              </td>
-              <td class="text-right">$450.25</td>
-            </tr>
-            <tr>
-              <td class="py-2">43250807</td>
-              <td>Liam Brown</td>
-              <td>
-                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
-              </td>
-              <td class="text-right">$120.00</td>
-            </tr>
-            <tr>
-              <td class="py-2">43250807</td>
-              <td>Sophia Lee</td>
-              <td>
-                <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">15/05/2025</span>
-              </td>
-              <td class="text-right">$275.75</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+      <!-- Pagos -->
+      {{ template "payments" . }}
+
     </div>
-    <!-- Quick Links -->
+    <!-- Acceso Rápido -->
     <div class="bg-gray-800 p-6 rounded-lg">
       <h3 class="text-lg font-semibold mb-4">Acceso Rápido</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
-          <span>📝</span><span>+ Nuevo Cobro</span>
+        <button
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
+          <span>📝</span><span>+ Nueva Factura</span>
         </button>
-        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
+        <button
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
           <span>📄</span><span>+ Nuevo Pago</span>
         </button>
-        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
-          <span>📊</span><span>Generar Reporte</span>
+        <button
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
+          <span>🛩️</span><span>Importar Datos</span>
         </button>
-        <button class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm">
+        <button
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
           <span>✈️</span><span>Exportar Datos</span>
         </button>
       </div>
