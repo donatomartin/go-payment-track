@@ -82,13 +82,13 @@
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
               <span class="flex items-center space-x-2"><span>📊</span><span>Facturación Pendiente</span></span>
-              <span>$0.00</span>
+              <span>{{ .PendingInvoicesAmount }} €</span>
             </button>
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
 
               <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Demorada</span></span>
-              <span>$0.00</span>
+              <span>{{ .PendingInvoicesAmount }} €</span>
             </button>
           </li>
         </ul>

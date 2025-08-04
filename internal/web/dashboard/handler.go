@@ -71,18 +71,24 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 	}
 
 	delayedInvoicesCount, err := h.invoiceService.GetDelayedInvoicesCount(r.Context())
+	delayedInvoicesAmount, err := h.invoiceService.GetDelayedInvoicesAmount(r.Context())
 	pendingInvoicesCount, err := h.invoiceService.GetPendingInvoicesCount(r.Context())
+	pendingInvoicesAmount, err := h.invoiceService.GetPendingInvoicesAmount(r.Context())
 
 	data := struct {
-		Title                string
-		Payments             []PaymentView
-		DelayedInvoicesCount int
-		PendingInvoicesCount int
+		Title                 string
+		Payments              []PaymentView
+		DelayedInvoicesCount  int
+		DelayedInvoicesAmount float64
+		PendingInvoicesCount  int
+		PendingInvoicesAmount float64
 	}{
-		Title:                "Dashboard",
-		Payments:             paymentViews,
-		DelayedInvoicesCount: delayedInvoicesCount,
-		PendingInvoicesCount: pendingInvoicesCount,
+		Title:                 "Dashboard",
+		Payments:              paymentViews,
+		DelayedInvoicesCount:  delayedInvoicesCount,
+		DelayedInvoicesAmount: delayedInvoicesAmount,
+		PendingInvoicesCount:  pendingInvoicesCount,
+		PendingInvoicesAmount: pendingInvoicesAmount,
 	}
 
 	if err := h.templates.ExecuteTemplate(w, "dashboard.html", data); err != nil {

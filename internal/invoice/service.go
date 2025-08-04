@@ -40,12 +40,20 @@ func (s *InvoiceService) GetDelayedInvoicesCount(ctx context.Context) (int, erro
 	return s.repo.GetDelayedInvoicesCount(ctx)
 }
 
+func (s *InvoiceService) GetDelayedInvoicesAmount(ctx context.Context) (float64, error) {
+	return s.repo.GetDelayedInvoicesAmount(ctx)
+}
+
 func (s *InvoiceService) GetDelayedInvoices(ctx context.Context) ([]Invoice, error) {
 	return s.repo.GetDelayedInvoices(ctx)
 }
 
 func (s *InvoiceService) GetPendingInvoicesCount(ctx context.Context) (int, error) {
 	return s.repo.GetPendingInvoicesCount(ctx)
+}
+
+func (s *InvoiceService) GetPendingInvoicesAmount(ctx context.Context) (float64, error) {
+	return s.repo.GetPendingInvoicesAmount(ctx)
 }
 
 func (s *InvoiceService) GetPendingInvoices(ctx context.Context) ([]Invoice, error) {
