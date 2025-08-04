@@ -1,7 +1,6 @@
 package dashboard
 
 import (
-	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
