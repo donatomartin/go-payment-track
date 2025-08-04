@@ -4,5 +4,5 @@ style.css
 node_modules
 *.xlsx
 *#
-test.go
-app.db
+*.db
+.env
