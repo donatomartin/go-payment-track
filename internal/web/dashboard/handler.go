@@ -9,6 +9,7 @@ import (
 
 	invoiceRepo "app/internal/invoice/repository"
 	paymentRepo "app/internal/payment/repository"
+	"app/internal/platform/util"
 	"app/web"
 )
 
@@ -64,7 +65,7 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		paymentViews = append(paymentViews, PaymentView{
 			ID:         payment.ID,
 			InvoiceID:  payment.InvoiceID,
-			Amount:     fmt.Sprintf("%v €", payment.Amount),
+			Amount:     util.Float64ToEuros(payment.Amount),
 			Date:       payment.Date.Format("2006-01-02"),
 			ClientName: payment.ClientName,
 		})
@@ -74,21 +75,27 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 	delayedInvoicesAmount, err := h.invoiceRepo.GetDelayedInvoicesAmount(r.Context())
 	pendingInvoicesCount, err := h.invoiceRepo.GetPendingInvoicesCount(r.Context())
 	pendingInvoicesAmount, err := h.invoiceRepo.GetPendingInvoicesAmount(r.Context())
+	partialInvoicesCount, err := h.invoiceRepo.GetPartialInvoicesCount(r.Context())
+	completedInvoicesCount, err := h.invoiceRepo.GetCompletedInvoicesCount(r.Context())
 
 	data := struct {
-		Title                 string
-		Payments              []PaymentView
-		DelayedInvoicesCount  int
-		DelayedInvoicesAmount float64
-		PendingInvoicesCount  int
-		PendingInvoicesAmount float64
+		Title                  string
+		Payments               []PaymentView
+		DelayedInvoicesCount   int
+		DelayedInvoicesAmount  string
+		PendingInvoicesCount   int
+		PendingInvoicesAmount  string
+		PartialInvoicesCount   int
+		CompletedInvoicesCount int
 	}{
-		Title:                 "Dashboard",
-		Payments:              paymentViews,
-		DelayedInvoicesCount:  delayedInvoicesCount,
-		DelayedInvoicesAmount: delayedInvoicesAmount,
-		PendingInvoicesCount:  pendingInvoicesCount,
-		PendingInvoicesAmount: pendingInvoicesAmount,
+		Title:                  "Dashboard",
+		Payments:               paymentViews,
+		DelayedInvoicesCount:   delayedInvoicesCount,
+		DelayedInvoicesAmount:  util.Float64ToEuros(delayedInvoicesAmount),
+		PendingInvoicesCount:   pendingInvoicesCount,
+		PendingInvoicesAmount:  util.Float64ToEuros(pendingInvoicesAmount),
+		PartialInvoicesCount:   partialInvoicesCount,
+		CompletedInvoicesCount: completedInvoicesCount,
 	}
 
 	if err := h.templates.ExecuteTemplate(w, "dashboard.html", data); err != nil {

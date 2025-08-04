@@ -50,11 +50,10 @@
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
               <span class="rounded-lg flex items-center space-x-2"><span>🔔</span><span>Facturas
                   Completadas</span></span>
-              <span class="">1</span>
+              <span>{{ .CompletedInvoicesCount }}</span>
             </button>
           </li>
           <li class="flex justify-between items-center">
-
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
               <span class="flex items-center space-x-2"><span>💵</span><span>Facturas Pendientes</span></span>
@@ -62,7 +61,6 @@
             </button>
           </li>
           <li class="flex justify-between items-center">
-
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
               <span class="flex items-center space-x-2"><span>📅</span><span>Facturas Demoradas</span></span>
@@ -70,25 +68,22 @@
             </button>
           </li>
           <li class="flex justify-between items-center">
-
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
               <span class="flex items-center space-x-2"><span>🕑</span><span>Facturas en proceso de pago</span></span>
-              <span>5</span>
+              <span>{{ .PartialInvoicesCount }}</span>
             </button>
           </li>
           <li class="flex gap-2 justify-between items-center">
-
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
               <span class="flex items-center space-x-2"><span>📊</span><span>Facturación Pendiente</span></span>
-              <span>{{ .PendingInvoicesAmount }} €</span>
+              <span>{{ .PendingInvoicesAmount }}</span>
             </button>
             <button
               class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors">
-
               <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Demorada</span></span>
-              <span>{{ .PendingInvoicesAmount }} €</span>
+              <span>{{ .PendingInvoicesAmount }}</span>
             </button>
           </li>
         </ul>
