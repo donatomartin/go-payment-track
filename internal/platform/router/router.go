@@ -4,22 +4,23 @@ import (
 	"log"
 	"net/http"
 
-	"app/internal/invoice"
-	"app/internal/payment"
+	invoiceRepo "app/internal/invoice/repository"
+	paymentHandler "app/internal/payment/handler"
+	paymentRepo "app/internal/payment/repository"
 	"app/internal/platform/middleware"
 	"app/internal/web/dashboard"
 	"app/internal/web/static"
 )
 
-func NewRouter(paymentService payment.PaymentService, invoiceService invoice.InvoiceService, logger *log.Logger) http.Handler {
+func NewRouter(paymentRepo paymentRepo.PaymentRepository, invoiceRepo invoiceRepo.InvoiceRepository, logger *log.Logger) http.Handler {
 
 	mux := http.NewServeMux()
 
 	// API Handlers
-	payment.NewApiPaymentHandler(paymentService, logger).RegisterRoutes(mux)
+	paymentHandler.NewApiPaymentHandler(paymentRepo, logger, mux).RegisterRoutes()
 
 	// Web Handlers
-	dashboard.NewDashboardHandler(paymentService, invoiceService, logger).RegisterRoutes(mux)
+	dashboard.NewDashboardHandler(paymentRepo, invoiceRepo, logger).RegisterRoutes(mux)
 
 	// Static Handlers
 	static.NewStaticHandler(logger).RegisterRoutes(mux)

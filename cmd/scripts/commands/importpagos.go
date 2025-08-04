@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"app/internal/payment"
+	paymentRepository "app/internal/payment/repository"
 	"app/internal/platform/util"
 
 	"github.com/xuri/excelize/v2"
@@ -53,9 +54,8 @@ func ImportPagos(f *excelize.File) {
 
 	}
 
-	service := payment.NewPaymentService(payment.NewPaymentRepository(util.GetDB()))
-
-	if err := service.CreatePayments(context.Background(), payments); err != nil {
+	service := paymentRepository.NewPaymentRepository(util.GetDB())
+	if err := service.CreateBatch(context.Background(), payments); err != nil {
 		fmt.Printf("Error creating payments: %v\n", err)
 		panic(err)
 	}

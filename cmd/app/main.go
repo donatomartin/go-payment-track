@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"app/internal/invoice"
-	"app/internal/payment"
+	invoiceRepository "app/internal/invoice/repository"
+	paymentRepository "app/internal/payment/repository"
 	"app/internal/platform/config"
 	"app/internal/platform/database"
 	"app/internal/platform/router"
@@ -55,16 +55,13 @@ func main() {
 	}
 
 	// Initialize repositories and services
-	paymentRepo := payment.NewPaymentRepository(db)
-	paymentService := payment.NewPaymentService(paymentRepo)
-
-	invoiceRepo := invoice.NewInvoiceRepository(db)
-	invoiceService := invoice.NewInvoiceService(*invoiceRepo)
+	paymentRepo := paymentRepository.NewPaymentRepository(db)
+	invoiceRepo := invoiceRepository.NewInvoiceRepository(db)
 
 	// Setup HTTP server
 	srv := &http.Server{
 		Addr:         ":" + cfg.Port,
-		Handler:      router.NewRouter(paymentService, *invoiceService, logger),
+		Handler:      router.NewRouter(*paymentRepo, *invoiceRepo, logger),
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  60 * time.Second,

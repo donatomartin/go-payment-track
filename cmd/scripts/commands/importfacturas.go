@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"app/internal/invoice"
+	invoiceRepository "app/internal/invoice/repository"
 	"app/internal/platform/util"
 
 	"github.com/xuri/excelize/v2"
@@ -65,9 +66,9 @@ func ImportFacturas(f *excelize.File) {
 
 	}
 
-	service := invoice.NewInvoiceService(*invoice.NewInvoiceRepository(util.GetDB()))
+	repo := invoiceRepository.NewInvoiceRepository(util.GetDB())
 
-	if err := service.CreateInvoices(context.Background(), invoices); err != nil {
+	if err := repo.CreateBatch(context.Background(), invoices); err != nil {
 		fmt.Printf("Error creating invoices: %v\n", err)
 		panic(err)
 	}

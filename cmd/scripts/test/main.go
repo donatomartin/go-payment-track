@@ -1,7 +1,7 @@
 package main
 
 import (
-	"app/internal/invoice"
+	"app/internal/invoice/repository"
 	"app/internal/platform/util"
 	"context"
 	"fmt"
@@ -11,7 +11,7 @@ func main() {
 
 	db := util.GetDB()
 
-	repo := invoice.NewInvoiceRepository(db)
+	repo := repository.NewInvoiceRepository(db)
 
 	invoices, err := repo.GetDelayedInvoices(context.Background())
 	if err != nil {

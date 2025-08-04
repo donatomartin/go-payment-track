@@ -7,22 +7,22 @@ import (
 	"log"
 	"net/http"
 
-	"app/internal/invoice"
-	"app/internal/payment"
+	invoiceRepo "app/internal/invoice/repository"
+	paymentRepo "app/internal/payment/repository"
 	"app/web"
 )
 
 type DashboardHandler struct {
-	logger         *log.Logger
-	templates      *template.Template
-	paymentService payment.PaymentService
-	invoiceService invoice.InvoiceService
+	logger      *log.Logger
+	templates   *template.Template
+	paymentRepo paymentRepo.PaymentRepository
+	invoiceRepo invoiceRepo.InvoiceRepository
 }
 
 func NewDashboardHandler(
 
-	paymentService payment.PaymentService,
-	invoiceService invoice.InvoiceService,
+	paymentRepository paymentRepo.PaymentRepository,
+	invoiceRepository invoiceRepo.InvoiceRepository,
 	logger *log.Logger,
 
 ) *DashboardHandler {
@@ -34,10 +34,10 @@ func NewDashboardHandler(
 	t := template.Must(template.ParseFS(templateFS, "*.html"))
 
 	return &DashboardHandler{
-		logger:         logger,
-		templates:      t,
-		paymentService: paymentService,
-		invoiceService: invoiceService,
+		logger:      logger,
+		templates:   t,
+		paymentRepo: paymentRepository,
+		invoiceRepo: invoiceRepository,
 	}
 }
 
@@ -53,7 +53,7 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	payments, err := h.paymentService.GetPagedPayments(r.Context(), "date", "desc", 5, 6)
+	payments, err := h.paymentRepo.GetPaged(r.Context(), "date", "desc", 5, 6)
 	if err != nil {
 		http.Error(w, "Failed to get payments: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -70,10 +70,10 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		})
 	}
 
-	delayedInvoicesCount, err := h.invoiceService.GetDelayedInvoicesCount(r.Context())
-	delayedInvoicesAmount, err := h.invoiceService.GetDelayedInvoicesAmount(r.Context())
-	pendingInvoicesCount, err := h.invoiceService.GetPendingInvoicesCount(r.Context())
-	pendingInvoicesAmount, err := h.invoiceService.GetPendingInvoicesAmount(r.Context())
+	delayedInvoicesCount, err := h.invoiceRepo.GetDelayedInvoicesCount(r.Context())
+	delayedInvoicesAmount, err := h.invoiceRepo.GetDelayedInvoicesAmount(r.Context())
+	pendingInvoicesCount, err := h.invoiceRepo.GetPendingInvoicesCount(r.Context())
+	pendingInvoicesAmount, err := h.invoiceRepo.GetPendingInvoicesAmount(r.Context())
 
 	data := struct {
 		Title                 string
