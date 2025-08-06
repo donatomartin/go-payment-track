@@ -17,15 +17,15 @@ type DashboardHandler struct {
 }
 
 type Pagination struct {
-	ShowPagination bool
-	FirstPage      int
-	PrevPage       int
-	Page           int
-	NextPage       int
-	LastPage       int
-	Size           int
-	SortBy         string
-	SorDir         string
+	ShowSizeSelector bool
+	FirstPage        int
+	PrevPage         int
+	Page             int
+	NextPage         int
+	LastPage         int
+	Size             int
+	SortBy           string
+	SorDir           string
 }
 
 func (p Pagination) GetOffset() int {

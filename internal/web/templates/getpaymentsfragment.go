@@ -34,15 +34,15 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 	}
 
 	pagination := Pagination{
-		ShowPagination: paginationShowPagination,
-		FirstPage:      1,
-		PrevPage:       int(paginationPage - 1),
-		Page:           int(paginationPage),
-		NextPage:       int(paginationPage + 1),
-		LastPage:       1000, // TODO: This should ideally be calculated based on total records
-		Size:           int(paginationSize),
-		SortBy:         paginationSortBy,
-		SorDir:         paginationSortDir,
+		ShowSizeSelector: paginationShowPagination,
+		FirstPage:        1,
+		PrevPage:         int(paginationPage - 1),
+		Page:             int(paginationPage),
+		NextPage:         int(paginationPage + 1),
+		LastPage:         1000, // TODO: This should ideally be calculated based on total records
+		Size:             int(paginationSize),
+		SortBy:           paginationSortBy,
+		SorDir:           paginationSortDir,
 	}
 
 	payments, err := h.paymentRepo.GetPaged(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)

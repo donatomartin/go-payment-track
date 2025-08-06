@@ -1,0 +1,70 @@
+{{ define "pagination" }}
+<div>
+
+  {{ with .Pagination }}
+
+  <input type="hidden" name="showSizeSelector" value="{{ .ShowSizeSelector }}">
+
+
+  <!-- First Page Button -->
+  <button hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
+    hx-include="[name='showSizeSelector'], [name='pageSize']" hx-vals='{"page": "{{ .FirstPage }}"}'
+    class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+    <i class="fa-solid fa-angles-left"></i>
+  </button>
+
+  <!-- Previous Page Button -->
+  {{ if gt .Page .FirstPage }}
+  <button hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
+    hx-include="[name='showSizeSelector'], [name='pageSize']" hx-vals='{"page": "{{ .PrevPage }}"}'
+    class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+    <i class="fa-solid fa-angle-left"></i>
+  </button>
+  {{ else }}
+  <button disabled class="rounded-lg bg-gray-800 px-2 opacity-50 cursor-not-allowed">
+    <i class="fa-solid fa-angle-left"></i>
+  </button>
+  {{ end }}
+
+  <span class="px-2">Página {{ .Page }}</span>
+
+  <!-- Next Page Button -->
+  {{ if lt .Page .LastPage }}
+  <button hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
+    hx-include="[name='showSizeSelector'], [name='pageSize']" hx-vals='{"page": "{{ .NextPage }}"}'
+    class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+    <i class="fa-solid fa-angle-right"></i>
+  </button>
+  {{ else }}
+  <button disabled class="rounded-lg bg-gray-800 px-2 opacity-50 cursor-not-allowed">
+    <i class="fa-solid fa-angle-right"></i>
+  </button>
+  {{ end }}
+
+  <!-- Last Page Button -->
+  <button hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
+    hx-include="[name='showSizeSelector'], [name='pageSize']" hx-vals='{"page": "{{ .LastPage }}"}'
+    class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+    <i class="fa-solid fa-angles-right"></i>
+  </button>
+
+  {{ if .ShowSizeSelector}}
+
+  <select name="pageSize" hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
+    hx-include="[name='pageSize'], [name='showSizeSelector']" class="bg-gray-700 text-gray-100 rounded-lg px-2 py-1">
+    <option value="10" {{ if eq .Size 10 }}selected{{ end }}>10</option>
+    <option value="20" {{ if eq .Size 20 }}selected{{ end }}>20</option>
+    <option value="50" {{ if eq .Size 50 }}selected{{ end }}>50</option>
+    <option value="100" {{ if eq .Size 100 }}selected{{ end }}>100</option>
+  </select>
+
+  {{ else }}
+
+  <input type="hidden" name="pageSize" value="{{ .Size }}">
+
+  {{end}}
+
+  {{ end }}
+
+</div>
+{{ end }}

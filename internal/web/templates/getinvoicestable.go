@@ -26,7 +26,19 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		"*.html",
 	))
 
-	invoices, err := h.invoiceRepo.GetPaged(r.Context(), "invoice_date", "desc", 0, 10)
+	pagination := Pagination{
+		ShowSizeSelector: false,
+		FirstPage:        1,
+		PrevPage:         0,
+		Page:             1,
+		NextPage:         2,
+		LastPage:         1000, // TODO: This should ideally be calculated based on total records,
+		Size:             6,
+		SortBy:           "created_at",
+		SorDir:           "desc",
+	}
+
+	invoices, err := h.invoiceRepo.GetPaged(r.Context(), "invoice_date", "desc", pagination.GetOffset(), pagination.Size)
 	if err != nil {
 		http.Error(w, "Failed to get invoices: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -45,11 +57,13 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 	}
 
 	data := struct {
-		Title    string
-		Invoices []InvoiceView
+		Title      string
+		Invoices   []InvoiceView
+		Pagination Pagination
 	}{
-		Title:    "Invoices",
-		Invoices: invoiceViews,
+		Title:      "Invoices",
+		Invoices:   invoiceViews,
+		Pagination: pagination,
 	}
 
 	if err := t.ExecuteTemplate(w, "invoices_table.html", data); err != nil {

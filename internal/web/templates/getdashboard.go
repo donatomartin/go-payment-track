@@ -28,15 +28,15 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 	}
 
 	pagination := Pagination{
-		ShowPagination: false,
-		FirstPage:      1,
-		PrevPage:       0,
-		Page:           1,
-		NextPage:       2,
-		LastPage:       1000, // TODO: This should ideally be calculated based on total records,
-		Size:           6,
-		SortBy:         "created_at",
-		SorDir:         "desc",
+		ShowSizeSelector: false,
+		FirstPage:        1,
+		PrevPage:         0,
+		Page:             1,
+		NextPage:         2,
+		LastPage:         1000, // TODO: This should ideally be calculated based on total records,
+		Size:             6,
+		SortBy:           "created_at",
+		SorDir:           "desc",
 	}
 
 	payments, err := h.paymentRepo.GetPaged(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)

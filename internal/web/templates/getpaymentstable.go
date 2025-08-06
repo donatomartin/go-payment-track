@@ -26,7 +26,7 @@ func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Reque
 	))
 
 	pagination := Pagination{
-		ShowPagination: true,
+		ShowSizeSelector: true,
 		FirstPage:      1,
 		PrevPage:       0,
 		Page:           1,

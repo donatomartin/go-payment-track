@@ -2,21 +2,9 @@
 <div class="bg-gray-800 p-6 rounded-lg">
   <div class="flex justify-between items-center">
     <h3 class="flex text-lg font-semibold">Facturas</h3>
-    <div>
-      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
-        <i class="fa-solid fa-angles-left"></i>
-      </button>
-      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
-        <i class="fa-solid fa-angle-left"></i>
-      </button>
-      <span class="px-2">1</span>
-      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
-        <i class="fa-solid fa-angle-right"></i>
-      </button>
-      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
-        <i class="fa-solid fa-angles-right"></i>
-      </button>
-    </div>
+
+    {{ template "pagination" . }}
+
   </div>
   <table class="w-full mt-4 text-sm">
     <thead class="border-b border-gray-700">
