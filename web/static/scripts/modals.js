@@ -33,8 +33,8 @@ const closeInvoiceModal = document.getElementById("close-invoice-modal");
 
 addInvoiceButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    paymentModal.classList.remove("hidden");
-    paymentModal.classList.add("flex");
+    invoiceModal.classList.remove("hidden");
+    invoiceModal.classList.add("flex");
   });
 });
 
