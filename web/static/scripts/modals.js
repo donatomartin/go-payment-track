@@ -3,7 +3,7 @@ const paymentModal = document.getElementById("payment-modal");
 
 let addPaymentButtons = [];
 
-addPaymentButtons.push(document.querySelector("button:nth-child(2)"));
+addPaymentButtons.push(document.querySelector("button:nth-child(3)"));
 addPaymentButtons.push(
   document.querySelector(".quick-access button:nth-child(2)"),
 );
@@ -25,7 +25,7 @@ closePaymentModal.addEventListener("click", () => {
 // Invoice Modal
 const invoiceModal = document.getElementById("invoice-modal");
 const addInvoiceButtons = [];
-addInvoiceButtons.push(document.querySelector("button:nth-child(3)"));
+addInvoiceButtons.push(document.querySelector("button:nth-child(4)"));
 addInvoiceButtons.push(
   document.querySelector(".quick-access button:nth-child(1)"),
 );
