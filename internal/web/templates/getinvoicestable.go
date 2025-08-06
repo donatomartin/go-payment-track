@@ -1,4 +1,4 @@
-package dashboard
+package templates
 
 import (
 	"app/internal/platform/util"
@@ -57,4 +57,3 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		return
 	}
 }
-

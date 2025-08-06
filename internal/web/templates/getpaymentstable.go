@@ -1,4 +1,4 @@
-package dashboard
+package templates
 
 import (
 	"app/web"
