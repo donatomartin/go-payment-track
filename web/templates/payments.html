@@ -9,22 +9,6 @@
 
       <input type="hidden" name="showPagination" value="{{ .ShowPagination }}">
 
-      {{ if .ShowPagination}}
-
-      <select name="pageSize" hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
-        hx-include="[name='pageSize'], [name='showPagination']" class="bg-gray-700 text-gray-100 rounded-lg px-2 py-1">
-        <option value="10" {{ if eq .Size 10 }}selected{{ end }}>10</option>
-        <option value="20" {{ if eq .Size 20 }}selected{{ end }}>20</option>
-        <option value="50" {{ if eq .Size 50 }}selected{{ end }}>50</option>
-        <option value="100" {{ if eq .Size 100 }}selected{{ end }}>100</option>
-      </select>
-
-      {{ else }}
-
-      <input type="hidden" name="pageSize" value="{{ .Size }}">
-
-      {{end}}
-
 
       <!-- First Page Button -->
       <button hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
@@ -67,6 +51,22 @@
         class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
         <i class="fa-solid fa-angles-right"></i>
       </button>
+
+      {{ if .ShowPagination}}
+
+      <select name="pageSize" hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
+        hx-include="[name='pageSize'], [name='showPagination']" class="bg-gray-700 text-gray-100 rounded-lg px-2 py-1">
+        <option value="10" {{ if eq .Size 10 }}selected{{ end }}>10</option>
+        <option value="20" {{ if eq .Size 20 }}selected{{ end }}>20</option>
+        <option value="50" {{ if eq .Size 50 }}selected{{ end }}>50</option>
+        <option value="100" {{ if eq .Size 100 }}selected{{ end }}>100</option>
+      </select>
+
+      {{ else }}
+
+      <input type="hidden" name="pageSize" value="{{ .Size }}">
+
+      {{end}}
 
       {{ end }}
 
