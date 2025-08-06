@@ -4,20 +4,23 @@
     <h3 class="flex text-lg font-semibold">Pagos</h3>
     <div>
 
+
       {{ with .Pagination }}
+
+      <input type="hidden" name="showPagination" value="{{ .ShowPagination }}">
+
       {{ if .ShowPagination}}
 
       <select name="pageSize" hx-get="/payments/fragment" hx-target="#payments-fragment" hx-swap="outerHTML"
-        hx-include="[name='pageSize']" class="bg-gray-700 text-gray-100 rounded-lg px-2 py-1">
+        hx-include="[name='pageSize'], [name='showPagination']" class="bg-gray-700 text-gray-100 rounded-lg px-2 py-1">
         <option value="10" {{ if eq .Size 10 }}selected{{ end }}>10</option>
-        <option value="25" {{ if eq .Size 25 }}selected{{ end }}>25</option>
+        <option value="20" {{ if eq .Size 20 }}selected{{ end }}>20</option>
         <option value="50" {{ if eq .Size 50 }}selected{{ end }}>50</option>
         <option value="100" {{ if eq .Size 100 }}selected{{ end }}>100</option>
       </select>
 
       {{ else }}
 
-      <input type="hidden" name="showPagination" value="{{ .ShowPagination }}">
       <input type="hidden" name="pageSize" value="{{ .Size }}">
 
       {{end}}

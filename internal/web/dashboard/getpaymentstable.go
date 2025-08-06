@@ -32,7 +32,7 @@ func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Reque
 		Page:           1,
 		NextPage:       2,
 		LastPage:       1000, // TODO: This should ideally be calculated based on total records
-		Size:           10,
+		Size:           20,
 		SortBy:         "created_at",
 		SorDir:         "desc",
 	}
