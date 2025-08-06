@@ -1,0 +1,12 @@
+{{ define "content" }}
+
+<div class="flex min-h-screen bg-gray-900 text-gray-100">
+  {{ template "sidebar" . }}
+  <main class="flex-1 p-6 space-y-8">
+    {{ template "invoices" . }}
+  </main>
+</div>
+
+{{ end }}
+
+{{ template "layout" . }}

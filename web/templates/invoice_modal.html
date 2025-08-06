@@ -1,0 +1,45 @@
+{{define "invoice_modal"}}
+<div id="invoice-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center hidden">
+  <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full">
+    <h2 class="text-2xl font-bold text-white mb-6">Añadir Factura</h2>
+    <form>
+      <div class="mb-4">
+        <label for="invoice-id" class="block text-sm font-medium text-gray-300 mb-2">ID de Factura</label>
+        <input type="text" id="invoice-id" name="invoice-id"
+          class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="customer-name" class="block text-sm font-medium text-gray-300 mb-2">Nombre del Cliente</label>
+        <input type="text" id="customer-name" name="customer-name"
+          class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="amount-due" class="block text-sm font-medium text-gray-300 mb-2">Cantidad a Pagar</label>
+        <input type="number" id="amount-due" name="amount-due"
+          class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="payment-mean" class="block text-sm font-medium text-gray-300 mb-2">Medio de Pago</label>
+        <input type="text" id="payment-mean" name="payment-mean"
+          class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="invoice-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha de Factura</_label>
+          <input type="date" id="invoice-date" name="invoice-date"
+            class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="due-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha de Vencimiento</label>
+        <input type="date" id="due-date" name="due-date"
+          class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button type="button" id="close-invoice-modal"
+          class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
+        <button type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{{end}}

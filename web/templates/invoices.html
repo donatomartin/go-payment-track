@@ -1,0 +1,46 @@
+{{ define "invoices" }}
+<div class="bg-gray-800 p-6 rounded-lg">
+  <div class="flex justify-between items-center">
+    <h3 class="flex text-lg font-semibold">Facturas</h3>
+    <div>
+      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+        <i class="fa-solid fa-angles-left"></i>
+      </button>
+      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+        <i class="fa-solid fa-angle-left"></i>
+      </button>
+      <span class="px-2">1</span>
+      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+        <i class="fa-solid fa-angle-right"></i>
+      </button>
+      <button class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
+        <i class="fa-solid fa-angles-right"></i>
+      </button>
+    </div>
+  </div>
+  <table class="w-full mt-4 text-sm">
+    <thead class="border-b border-gray-700">
+      <tr>
+        <th class="text-left py-2">Num. Pago</th>
+        <th class="text-left py-2">Num. Factura</th>
+        <th class="text-left py-2">Cliente</th>
+        <th class="text-left py-2">Fecha</th>
+        <th class="text-right py-2">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-700">
+      {{ range .Invoices }}
+      <tr class="hover:bg-gray-700 transition-colors">
+        <td class="py-2">{{ .ID }}</td>
+        <td class="py-2">{{ .CustomerName }}</td>
+        <td class="py-2">{{ .PaymentMean }}</td>
+        <td>
+          <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">{{ .InvoiceDate }}</span>
+        </td>
+        <td class="text-right">{{ .AmountDue }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

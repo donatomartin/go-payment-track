@@ -1,22 +1,52 @@
 package dashboard
 
 import (
-	"html/template"
-	"io/fs"
 	"log"
 	"net/http"
 
 	invoiceRepo "app/internal/invoice/repository"
+	"app/internal/payment"
 	paymentRepo "app/internal/payment/repository"
 	"app/internal/platform/util"
-	"app/web"
 )
 
 type DashboardHandler struct {
 	logger      *log.Logger
-	templates   *template.Template
 	paymentRepo paymentRepo.PaymentRepository
 	invoiceRepo invoiceRepo.InvoiceRepository
+}
+
+type Pagination struct {
+	ShowPagination bool
+	FirstPage      int
+	PrevPage       int
+	Page           int
+	NextPage       int
+	LastPage       int
+	Size           int
+	SortBy         string
+	SorDir         string
+}
+
+func (p Pagination) GetOffset() int {
+	return (p.Page - 1) * p.Size
+}
+
+type PaymentView struct {
+	ID         int
+	InvoiceID  string
+	Amount     string
+	Date       string
+	ClientName string
+}
+
+type InvoiceView struct {
+	ID           string
+	CustomerName string
+	AmountDue    string
+	PaymentMean  string
+	InvoiceDate  string
+	DueDate      string
 }
 
 func NewDashboardHandler(
@@ -26,39 +56,22 @@ func NewDashboardHandler(
 	logger *log.Logger,
 
 ) *DashboardHandler {
-
-	templateFS, err := fs.Sub(web.WebFS, "templates")
-	if err != nil {
-		log.Fatalf("failed to create template sub file system: %v", err)
-	}
-	t := template.Must(template.ParseFS(templateFS, "*.html"))
-
 	return &DashboardHandler{
 		logger:      logger,
-		templates:   t,
 		paymentRepo: paymentRepository,
 		invoiceRepo: invoiceRepository,
 	}
 }
 
 func (h *DashboardHandler) RegisterRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("/dashboard", h.getDashboard)
 	mux.HandleFunc("/", h.getDashboard) // Redirect root to dashboard
+	mux.HandleFunc("/dashboard", h.getDashboard)
+	mux.HandleFunc("/invoices", h.getInvoicesTable)
+	mux.HandleFunc("/payments", h.getPaymentsTable)
+	mux.HandleFunc("/payments/fragment", h.getPaymentsFragment)
 }
 
-func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) {
-
-	if r.URL.Path != "/" && r.URL.Path != "/dashboard" {
-		http.NotFound(w, r)
-		return
-	}
-
-	payments, err := h.paymentRepo.GetPaged(r.Context(), "date", "desc", 5, 6)
-	if err != nil {
-		http.Error(w, "Failed to get payments: "+err.Error(), http.StatusInternalServerError)
-		return
-	}
-
+func paymentsToPaymentViews(payments []payment.Payment) []PaymentView {
 	var paymentViews []PaymentView
 	for _, payment := range payments {
 		paymentViews = append(paymentViews, PaymentView{
@@ -69,45 +82,5 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 			ClientName: payment.ClientName,
 		})
 	}
-
-	delayedInvoicesCount, err := h.invoiceRepo.GetDelayedInvoicesCount(r.Context())
-	delayedInvoicesAmount, err := h.invoiceRepo.GetDelayedInvoicesAmount(r.Context())
-	pendingInvoicesCount, err := h.invoiceRepo.GetPendingInvoicesCount(r.Context())
-	pendingInvoicesAmount, err := h.invoiceRepo.GetPendingInvoicesAmount(r.Context())
-	partialInvoicesCount, err := h.invoiceRepo.GetPartialInvoicesCount(r.Context())
-	completedInvoicesCount, err := h.invoiceRepo.GetCompletedInvoicesCount(r.Context())
-
-	data := struct {
-		Title                  string
-		Payments               []PaymentView
-		DelayedInvoicesCount   int
-		DelayedInvoicesAmount  string
-		PendingInvoicesCount   int
-		PendingInvoicesAmount  string
-		PartialInvoicesCount   int
-		CompletedInvoicesCount int
-	}{
-		Title:                  "Dashboard",
-		Payments:               paymentViews,
-		DelayedInvoicesCount:   delayedInvoicesCount,
-		DelayedInvoicesAmount:  util.Float64ToEuros(delayedInvoicesAmount),
-		PendingInvoicesCount:   pendingInvoicesCount,
-		PendingInvoicesAmount:  util.Float64ToEuros(pendingInvoicesAmount),
-		PartialInvoicesCount:   partialInvoicesCount,
-		CompletedInvoicesCount: completedInvoicesCount,
-	}
-
-	if err := h.templates.ExecuteTemplate(w, "dashboard.html", data); err != nil {
-		http.Error(w, "Failed to render dashboard: ", http.StatusInternalServerError)
-		h.logger.Fatal("Template error:", err)
-	}
-
-}
-
-type PaymentView struct {
-	ID         int
-	InvoiceID  string
-	Amount     string
-	Date       string
-	ClientName string
+	return paymentViews
 }

@@ -23,4 +23,5 @@ func NewApiPaymentHandler(repo repository.PaymentRepository, logger *log.Logger,
 func (h *ApiPaymentHandler) RegisterRoutes() {
 	h.mux.HandleFunc("/api/v1/payments/paged", h.getPagedPayments)
 	h.mux.HandleFunc("/api/v1/payments", h.getPayments)
+	h.mux.HandleFunc("/api/v1/payments/add", h.addPayment)
 }
