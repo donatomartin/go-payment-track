@@ -11,6 +11,9 @@ addPaymentButtons.push(
 const closePaymentModal = document.getElementById("close-payment-modal");
 
 addPaymentButtons.forEach((button) => {
+  if (button === null) {
+    return;
+  }
   button.addEventListener("click", () => {
     paymentModal.classList.remove("hidden");
     paymentModal.classList.add("flex");
@@ -32,6 +35,9 @@ addInvoiceButtons.push(
 const closeInvoiceModal = document.getElementById("close-invoice-modal");
 
 addInvoiceButtons.forEach((button) => {
+  if (button === null) {
+    return;
+  }
   button.addEventListener("click", () => {
     invoiceModal.classList.remove("hidden");
     invoiceModal.classList.add("flex");
@@ -39,6 +45,6 @@ addInvoiceButtons.forEach((button) => {
 });
 
 closeInvoiceModal.addEventListener("click", () => {
-  paymentModal.classList.add("hidden");
-  paymentModal.classList.remove("flex");
+  invoiceModal.classList.add("hidden");
+  invoiceModal.classList.remove("flex");
 });

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tw": "pnpm exec tailwindcss-cli -i ./input.css -o ./web/static/style.css --watch"
+    "tw": "pnpm exec tailwindcss-cli -i ./input.css -o ./web/static/styles/tailwind.css --watch"
   },
   "keywords": [],
   "author": "",
