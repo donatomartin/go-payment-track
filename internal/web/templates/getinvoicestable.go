@@ -44,17 +44,7 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	var invoiceViews []InvoiceView
-	for _, invoice := range invoices {
-		invoiceViews = append(invoiceViews, InvoiceView{
-			ID:           invoice.ID,
-			CustomerName: invoice.CustomerName,
-			AmountDue:    util.Float64ToEuros(invoice.AmountDue),
-			PaymentMean:  invoice.PaymentMean,
-			InvoiceDate:  invoice.InvoiceDate.Format("2006-01-02"),
-			DueDate:      invoice.DueDate.Format("2006-01-02"),
-		})
-	}
+	invoiceViews := invoicesToInvoiceViews(invoices)
 
 	data := struct {
 		Title      string

@@ -84,3 +84,18 @@ func paymentsToPaymentViews(payments []payment.Payment) []PaymentView {
 	}
 	return paymentViews
 }
+
+func invoicesToInvoiceViews(invoices []invoice.Invoice) []InvoiceView {
+	var invoiceViews []InvoiceView
+	for _, invoice := range invoices {
+		invoiceViews = append(invoiceViews, InvoiceView{
+			ID:           invoice.ID,
+			CustomerName: invoice.CustomerName,
+			AmountDue:    util.Float64ToEuros(invoice.AmountDue),
+			PaymentMean:  invoice.PaymentMean,
+			InvoiceDate:  invoice.InvoiceDate.Format("2006-01-02"),
+			DueDate:      invoice.DueDate.Format("2006-01-02"),
+		})
+	}
+	return invoiceViews
+}
