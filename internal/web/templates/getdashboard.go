@@ -29,6 +29,7 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 
 	pagination := Pagination{
 		ShowSizeSelector: false,
+		HtmxFragmentName: "payments",
 		FirstPage:        1,
 		PrevPage:         0,
 		Page:             1,

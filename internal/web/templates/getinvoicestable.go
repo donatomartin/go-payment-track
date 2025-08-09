@@ -1,7 +1,6 @@
 package templates
 
 import (
-	"app/internal/platform/util"
 	"app/web"
 	"html/template"
 	"io/fs"
@@ -27,13 +26,14 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 	))
 
 	pagination := Pagination{
-		ShowSizeSelector: false,
+		ShowSizeSelector: true,
+		HtmxFragmentName: "invoices",
 		FirstPage:        1,
 		PrevPage:         0,
 		Page:             1,
 		NextPage:         2,
 		LastPage:         1000, // TODO: This should ideally be calculated based on total records,
-		Size:             6,
+		Size:             20,
 		SortBy:           "created_at",
 		SorDir:           "desc",
 	}
@@ -51,7 +51,7 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		Invoices   []InvoiceView
 		Pagination Pagination
 	}{
-		Title:      "Invoices",
+		Title:      "Todas las facturas",
 		Invoices:   invoiceViews,
 		Pagination: pagination,
 	}
@@ -60,4 +60,5 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		http.Error(w, "Failed to render invoices table: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 }

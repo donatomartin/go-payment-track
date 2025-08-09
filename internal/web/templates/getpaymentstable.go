@@ -27,14 +27,15 @@ func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Reque
 
 	pagination := Pagination{
 		ShowSizeSelector: true,
-		FirstPage:      1,
-		PrevPage:       0,
-		Page:           1,
-		NextPage:       2,
-		LastPage:       1000, // TODO: This should ideally be calculated based on total records
-		Size:           20,
-		SortBy:         "created_at",
-		SorDir:         "desc",
+		HtmxFragmentName: "payments",
+		FirstPage:        1,
+		PrevPage:         0,
+		Page:             1,
+		NextPage:         2,
+		LastPage:         1000, // TODO: This should ideally be calculated based on total records
+		Size:             20,
+		SortBy:           "created_at",
+		SorDir:           "desc",
 	}
 
 	payments, err := h.paymentRepo.GetPaged(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
@@ -50,7 +51,7 @@ func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Reque
 		Payments   []PaymentView
 		Pagination Pagination
 	}{
-		Title:      "Payments",
+		Title:      "Todos los pagos",
 		Payments:   paymentViews,
 		Pagination: pagination,
 	}

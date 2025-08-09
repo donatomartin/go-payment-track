@@ -1,7 +1,7 @@
 {{ define "invoices" }}
-<div class="bg-gray-800 p-6 rounded-lg">
+<div id="invoices-fragment" class="bg-gray-800 p-6 rounded-lg">
   <div class="flex justify-between items-center">
-    <h3 class="flex text-lg font-semibold">Facturas</h3>
+    <h3 class="flex text-lg font-semibold">{{ .Title }}</h3>
 
     {{ template "pagination" . }}
 

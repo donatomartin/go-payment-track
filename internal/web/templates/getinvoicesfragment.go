@@ -8,9 +8,9 @@ import (
 	"strconv"
 )
 
-func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Request) {
+func (h *DashboardHandler) getInvoicesFragment(w http.ResponseWriter, r *http.Request) {
 
-	if r.URL.Path != "/payments/fragment" {
+	if r.URL.Path != "/invoices/fragment" {
 		http.NotFound(w, r)
 		return
 	}
@@ -35,7 +35,7 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 
 	pagination := Pagination{
 		ShowSizeSelector: paginationShowSizeSelector,
-		HtmxFragmentName: "payments",
+		HtmxFragmentName: "invoices",
 		FirstPage:        1,
 		PrevPage:         int(paginationPage - 1),
 		Page:             int(paginationPage),
@@ -46,21 +46,21 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 		SorDir:           paginationSortDir,
 	}
 
-	payments, err := h.paymentRepo.GetPaged(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
+	invoices, err := h.invoiceRepo.GetPaged(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
 	if err != nil {
-		http.Error(w, "Failed to get payments: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Failed to get invoices: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	paymentViews := paymentsToPaymentViews(payments)
+	invoiceViews := invoicesToInvoiceViews(invoices)
 
 	data := struct {
 		Title      string
-		Payments   []PaymentView
+		Invoices   []InvoiceView
 		Pagination Pagination
 	}{
-		Title:      "Payments",
-		Payments:   paymentViews,
+		Title:      "Invoices",
+		Invoices:   invoiceViews,
 		Pagination: pagination,
 	}
 
@@ -71,12 +71,13 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 		return
 	}
 	t := template.Must(template.ParseFS(templateFS,
-		"fragments/payments.html",
+		"fragments/invoices.html",
 		"*.html",
 	))
 
-	if err := t.ExecuteTemplate(w, "payments.html", data); err != nil {
-		http.Error(w, "Failed to render payments table: "+err.Error(), http.StatusInternalServerError)
+	if err := t.ExecuteTemplate(w, "invoices.html", data); err != nil {
+		http.Error(w, "Failed to render invoices table: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 }

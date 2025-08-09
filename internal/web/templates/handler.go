@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"app/internal/invoice"
 	invoiceRepo "app/internal/invoice/repository"
 	"app/internal/payment"
 	paymentRepo "app/internal/payment/repository"
@@ -18,6 +19,7 @@ type DashboardHandler struct {
 
 type Pagination struct {
 	ShowSizeSelector bool
+	HtmxFragmentName string
 	FirstPage        int
 	PrevPage         int
 	Page             int
@@ -67,6 +69,7 @@ func (h *DashboardHandler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/", h.getDashboard) // Redirect root to dashboard
 	mux.HandleFunc("/dashboard", h.getDashboard)
 	mux.HandleFunc("/invoices", h.getInvoicesTable)
+	mux.HandleFunc("/invoices/fragment", h.getInvoicesFragment)
 	mux.HandleFunc("/payments", h.getPaymentsTable)
 	mux.HandleFunc("/payments/fragment", h.getPaymentsFragment)
 }

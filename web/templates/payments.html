@@ -1,7 +1,7 @@
 {{ define "payments" }}
-<div id="payments-fragment" hx-trigger="load" hx-swap="outerHTML" class="bg-gray-800 p-6 rounded-lg">
+<div id="payments-fragment" class="bg-gray-800 p-6 rounded-lg">
   <div class="flex justify-between items-center">
-    <h3 class="flex text-lg font-semibold">Pagos</h3>
+    <h3 class="flex text-lg font-semibold">{{ .Title }}</h3>
 
     {{ template "pagination" . }}
 
