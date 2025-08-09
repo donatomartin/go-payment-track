@@ -38,7 +38,7 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		SorDir:           "desc",
 	}
 
-	invoices, err := h.invoiceRepo.GetPaged(r.Context(), "invoice_date", "desc", pagination.GetOffset(), pagination.Size)
+	invoices, err := h.invoiceRepo.GetAll(r.Context(), "invoice_date", "desc", pagination.GetOffset(), pagination.Size)
 	if err != nil {
 		http.Error(w, "Failed to get invoices: "+err.Error(), http.StatusInternalServerError)
 		return

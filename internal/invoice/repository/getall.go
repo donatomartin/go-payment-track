@@ -3,10 +3,36 @@ package repository
 import (
 	"app/internal/invoice"
 	"context"
+	"fmt"
 )
 
-func (r *InvoiceRepository) GetAll(ctx context.Context) ([]invoice.Invoice, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT * FROM invoices")
+func (r *InvoiceRepository) GetAll(ctx context.Context, sortBy, sortDir string, offset, limit int) ([]invoice.Invoice, error) {
+	validSortBy := map[string]bool{
+		"id":            true,
+		"customer_name": true,
+		"amount_due":    true,
+		"payment_mean":  true,
+		"invoice_date":  true,
+		"due_date":      true,
+		"created_at":    true,
+		"updated_at":    true,
+	}
+
+	if !validSortBy[sortBy] {
+		return nil, fmt.Errorf("invalid sort by field: %s", sortBy)
+	}
+
+	validSortDir := map[string]bool{
+		"asc":  true,
+		"desc": true,
+	}
+
+	if !validSortDir[sortDir] {
+		return nil, fmt.Errorf("invalid sort direction: %s", sortDir)
+	}
+
+	query := "SELECT * FROM invoices ORDER BY " + sortBy + " " + sortDir + " LIMIT ? OFFSET ?"
+	rows, err := r.db.Query(query, limit, offset)
 	if err != nil {
 		return nil, err
 	}

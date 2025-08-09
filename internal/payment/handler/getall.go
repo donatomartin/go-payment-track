@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func (h *ApiPaymentHandler) getPagedPayments(w http.ResponseWriter, r *http.Request) {
+func (h *ApiPaymentHandler) getAll(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -37,7 +37,7 @@ func (h *ApiPaymentHandler) getPagedPayments(w http.ResponseWriter, r *http.Requ
 		sortDir = "desc" // Default sort direction
 	}
 
-	payments, err := h.repo.GetPaged(r.Context(), sortBy, sortDir, offset, limit)
+	payments, err := h.repo.GetAll(r.Context(), sortBy, sortDir, offset, limit)
 	if err != nil {
 		http.Error(w, "Failed to get payments: "+err.Error(), http.StatusInternalServerError)
 		return

@@ -40,7 +40,7 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		SorDir:           "desc",
 	}
 
-	payments, err := h.paymentRepo.GetPaged(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
+	payments, err := h.paymentRepo.GetAll(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
 	if err != nil {
 		http.Error(w, "Failed to get payments: "+err.Error(), http.StatusInternalServerError)
 		return
