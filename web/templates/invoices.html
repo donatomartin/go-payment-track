@@ -14,6 +14,7 @@
         <th class="text-left py-2">Cliente</th>
         <th class="text-left py-2">Fecha</th>
         <th class="text-right py-2">Cantidad</th>
+        <th class="text-right py-2">Pagado</th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-700">
@@ -26,6 +27,7 @@
           <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">{{ .InvoiceDate }}</span>
         </td>
         <td class="text-right">{{ .AmountDue }}</td>
+        <td class="text-right">{{ .TotalPaid }}</td>
       </tr>
       {{ end }}
     </tbody>

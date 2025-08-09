@@ -49,6 +49,7 @@ type InvoiceView struct {
 	PaymentMean  string
 	InvoiceDate  string
 	DueDate      string
+	TotalPaid    string
 }
 
 func NewDashboardHandler(
@@ -98,6 +99,7 @@ func invoicesToInvoiceViews(invoices []invoice.Invoice) []InvoiceView {
 			PaymentMean:  invoice.PaymentMean,
 			InvoiceDate:  invoice.InvoiceDate.Format("2006-01-02"),
 			DueDate:      invoice.DueDate.Format("2006-01-02"),
+			TotalPaid:    util.Float64ToEuros(invoice.TotalPaid),
 		})
 	}
 	return invoiceViews

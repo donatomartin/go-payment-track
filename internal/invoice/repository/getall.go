@@ -16,6 +16,7 @@ func (r *InvoiceRepository) GetAll(ctx context.Context, sortBy, sortDir string, 
 		"due_date":      true,
 		"created_at":    true,
 		"updated_at":    true,
+		"total_paid":    true,
 	}
 
 	if !validSortBy[sortBy] {
@@ -31,7 +32,15 @@ func (r *InvoiceRepository) GetAll(ctx context.Context, sortBy, sortDir string, 
 		return nil, fmt.Errorf("invalid sort direction: %s", sortDir)
 	}
 
-	query := "SELECT * FROM invoices ORDER BY " + sortBy + " " + sortDir + " LIMIT ? OFFSET ?"
+	query := fmt.Sprintf(`
+		SELECT 
+			invoices.*,
+			COALESCE(SUM(payments.amount), 0) AS total_paid
+		FROM invoices 
+		LEFT JOIN payments ON invoices.id = payments.invoice_id
+		GROUP BY invoices.id
+		ORDER BY %s %s 
+		LIMIT ? OFFSET ?`, sortBy, sortDir)
 	rows, err := r.db.Query(query, limit, offset)
 	if err != nil {
 		return nil, err
@@ -50,6 +59,7 @@ func (r *InvoiceRepository) GetAll(ctx context.Context, sortBy, sortDir string, 
 			&invoice.DueDate,
 			&invoice.CreatedAt,
 			&invoice.UpdatedAt,
+			&invoice.TotalPaid,
 		); err != nil {
 			return nil, err
 		}
