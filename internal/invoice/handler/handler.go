@@ -21,4 +21,5 @@ func NewApiInvoiceHandler(repo repository.InvoiceRepository, logger *log.Logger,
 }
 
 func (h *ApiInvoiceHandler) RegisterRoutes() {
+	h.mux.HandleFunc("/api/v1/invoices/add", h.addInvoice)
 }
