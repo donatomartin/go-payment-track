@@ -21,18 +21,31 @@ func (h *ApiPaymentHandler) addPayment(w http.ResponseWriter, r *http.Request) {
 	bodyInvoiceID := r.FormValue("invoice-id")
 	bodyDate := r.FormValue("date")
 
-	paymentAmount, _ := strconv.ParseFloat(bodyAmount, 64)
-	paymentInvoiceID := strings.Trim(bodyInvoiceID, " \t\n\r")
-	paymentDate, _ := time.Parse("2006-01-02", bodyDate)
+	// Parse the body
+	parsedAmount, err := strconv.ParseFloat(bodyAmount, 64)
+	if err != nil {
+		h.logger.Printf("Invalid amount: %v", err)
+		w.Header().Set("Content-Type", "text/html")
+		buf := `<div class="text-red-400">Cantidad inválida. Por favor, ingresa un número válido.</div>`
+		w.Write([]byte(buf))
+		return
+	}
+	parsedInvoiceID := strings.Trim(bodyInvoiceID, " \t\n\r")
+	parsedDate, err := time.Parse("2006-01-02", bodyDate)
+	if err != nil {
+		h.logger.Printf("Invalid date format: %v", err)
+		w.Header().Set("Content-Type", "text/html")
+		buf := `<div class="text-red-400">Formato de fecha inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
+		w.Write([]byte(buf))
+		return
+	}
 
-	h.logger.Printf("Adding payment: InvoiceID=%s, Amount=%.2f, Date=%s", paymentInvoiceID, paymentAmount, paymentDate)
-
-	err := h.repo.AddPayment(r.Context(), &payment.Payment{
-		InvoiceID: paymentInvoiceID,
-		Amount:    paymentAmount,
-		Date:      paymentDate,
+	// Add the payment
+	err = h.repo.AddPayment(r.Context(), &payment.Payment{
+		InvoiceID: parsedInvoiceID,
+		Amount:    parsedAmount,
+		Date:      parsedDate,
 	})
-
 	if err != nil {
 		h.logger.Printf("Error adding payment: %v", err)
 		w.Header().Set("Content-Type", "text/html")
@@ -40,6 +53,8 @@ func (h *ApiPaymentHandler) addPayment(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(buf))
 		return
 	}
+
+	h.logger.Printf("Payment added successfully for invoice ID: %s", parsedInvoiceID)
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(`<div class="text-green-400">Pago agregado exitosamente.</div>`))
 
