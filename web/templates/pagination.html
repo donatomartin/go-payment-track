@@ -8,11 +8,13 @@
   {{ with .Pagination }}
 
   <input type="hidden" name="showSizeSelector" value="{{ .ShowSizeSelector }}">
+  <input type="hidden" name="sortBy" value="{{ .SortBy }}">
+  <input type="hidden" name="sortDir" value="{{ .SorDir }}">
 
 
   <!-- First Page Button -->
   <button hx-get="/{{ .HtmxFragmentName }}/fragment" hx-target="#{{ .HtmxFragmentName }}-fragment" hx-swap="outerHTML"
-    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status']" hx-vals='{"page": "{{ .FirstPage }}"}'
+    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status'], [name='sortBy'], [name='sortDir']" hx-vals='{"page": "{{ .FirstPage }}"}'
     class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
     <i class="fa-solid fa-angles-left"></i>
   </button>
@@ -20,7 +22,7 @@
   <!-- Previous Page Button -->
   {{ if gt .Page .FirstPage }}
   <button hx-get="/{{ .HtmxFragmentName }}/fragment" hx-target="#{{ .HtmxFragmentName }}-fragment" hx-swap="outerHTML"
-    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status']" hx-vals='{"page": "{{ .PrevPage }}"}'
+    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status'], [name='sortBy'], [name='sortDir']" hx-vals='{"page": "{{ .PrevPage }}"}'
     class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
     <i class="fa-solid fa-angle-left"></i>
   </button>
@@ -35,7 +37,7 @@
   <!-- Next Page Button -->
   {{ if lt .Page .LastPage }}
   <button hx-get="/{{ .HtmxFragmentName }}/fragment" hx-target="#{{ .HtmxFragmentName }}-fragment" hx-swap="outerHTML"
-    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status']" hx-vals='{"page": "{{ .NextPage }}"}'
+    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status'], [name='sortBy'], [name='sortDir']" hx-vals='{"page": "{{ .NextPage }}"}'
     class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
     <i class="fa-solid fa-angle-right"></i>
   </button>
@@ -47,7 +49,7 @@
 
   <!-- Last Page Button -->
   <button hx-get="/{{ .HtmxFragmentName }}/fragment" hx-target="#{{ .HtmxFragmentName }}-fragment" hx-swap="outerHTML"
-    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status']" hx-vals='{"page": "{{ .LastPage }}"}'
+    hx-include="[name='showSizeSelector'], [name='pageSize'], [name='status'], [name='sortBy'], [name='sortDir']" hx-vals='{"page": "{{ .LastPage }}"}'
     class="rounded-lg bg-gray-700 px-2 hover:bg-gray-600 transition-colors">
     <i class="fa-solid fa-angles-right"></i>
   </button>
@@ -55,7 +57,7 @@
   {{ if .ShowSizeSelector}}
 
   <select name="pageSize" hx-get="/{{ .HtmxFragmentName }}/fragment" hx-target="#{{ .HtmxFragmentName }}-fragment"
-    hx-swap="outerHTML" hx-include="[name='pageSize'], [name='showSizeSelector'], [name='status']"
+    hx-swap="outerHTML" hx-include="[name='pageSize'], [name='showSizeSelector'], [name='status'], [name='sortBy'], [name='sortDir']"
     class="bg-gray-700 text-gray-100 rounded-lg px-2 py-1">
     <option value="10" {{ if eq .Size 10 }}selected{{ end }}>10</option>
     <option value="20" {{ if eq .Size 20 }}selected{{ end }}>20</option>

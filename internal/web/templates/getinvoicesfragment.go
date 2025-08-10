@@ -26,7 +26,13 @@ func (h *DashboardHandler) getInvoicesFragment(w http.ResponseWriter, r *http.Re
 
 	paginationShowSizeSelector := requestShowSizeSelector == "true"
 	paginationSortBy := requestSortBy
+	if paginationSortBy == "" {
+		paginationSortBy = "created_at"
+	}
 	paginationSortDir := requestSortDir
+	if paginationSortDir == "" {
+		paginationSortDir = "desc"
+	}
 	paginationPage, err := strconv.ParseInt(requestPage, 10, 64)
 	if err != nil || paginationPage < 1 {
 		paginationPage = 1
@@ -68,7 +74,7 @@ func (h *DashboardHandler) getInvoicesFragment(w http.ResponseWriter, r *http.Re
 		invoices, err = h.invoiceRepo.GetPartialInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
 		title = "Facturas en proceso de pago"
 	default:
-		invoices, err = h.invoiceRepo.GetAll(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
+		invoices, err = h.invoiceRepo.GetAll(r.Context(), pagination.SortBy, pagination.SorDir, pagination.GetOffset(), pagination.Size)
 		title = "Todas las facturas"
 	}
 	if err != nil {

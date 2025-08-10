@@ -23,7 +23,13 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 
 	paginationShowSizeSelector := requestShowSizeSelector == "true"
 	paginationSortBy := requestSortBy
+	if paginationSortBy == "" {
+		paginationSortBy = "created_at"
+	}
 	paginationSortDir := requestSortDir
+	if paginationSortDir == "" {
+		paginationSortDir = "desc"
+	}
 	paginationPage, err := strconv.ParseInt(requestPage, 10, 64)
 	if err != nil || paginationPage < 1 {
 		paginationPage = 1
@@ -46,7 +52,7 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 		SorDir:           paginationSortDir,
 	}
 
-	payments, err := h.paymentRepo.GetAll(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
+	payments, err := h.paymentRepo.GetAll(r.Context(), pagination.SortBy, pagination.SorDir, pagination.GetOffset(), pagination.Size)
 	if err != nil {
 		http.Error(w, "Failed to get payments: "+err.Error(), http.StatusInternalServerError)
 		return

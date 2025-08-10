@@ -9,12 +9,13 @@ import (
 func (r *PaymentRepository) GetAll(ctx context.Context, sortBy, sortDir string, offset, limit int) ([]payment.Payment, error) {
 
 	validSortBy := map[string]bool{
-		"id":         true,
-		"invoice_id": true,
-		"amount":     true,
-		"date":       true,
-		"created_at": true,
-		"updated_at": true,
+		"id":            true,
+		"invoice_id":    true,
+		"amount":        true,
+		"date":          true,
+		"created_at":    true,
+		"updated_at":    true,
+		"customer_name": true,
 	}
 
 	validSortDir := map[string]bool{

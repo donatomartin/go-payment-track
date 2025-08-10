@@ -64,7 +64,7 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		invoices, err = h.invoiceRepo.GetPartialInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
 		title = "Facturas en Proceso"
 	default:
-		invoices, err = h.invoiceRepo.GetAll(r.Context(), "invoice_date", "desc", pagination.GetOffset(), pagination.Size)
+		invoices, err = h.invoiceRepo.GetAll(r.Context(), pagination.SortBy, pagination.SorDir, pagination.GetOffset(), pagination.Size)
 		title = "Todas las facturas"
 	}
 	if err != nil {
