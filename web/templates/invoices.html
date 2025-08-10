@@ -9,10 +9,11 @@
   <table class="w-full mt-4 text-sm">
     <thead class="border-b border-gray-700">
       <tr>
-        <th class="text-left py-2">Num. Pago</th>
         <th class="text-left py-2">Num. Factura</th>
         <th class="text-left py-2">Cliente</th>
         <th class="text-left py-2">Fecha</th>
+        <th class="text-left py-2">Vencimiento</th>
+        <th class="text-left py-2">Medio</th>
         <th class="text-right py-2">Cantidad</th>
         <th class="text-right py-2">Pagado</th>
       </tr>
@@ -22,10 +23,13 @@
       <tr class="hover:bg-gray-700 transition-colors">
         <td class="py-2">{{ .ID }}</td>
         <td class="py-2">{{ .CustomerName }}</td>
-        <td class="py-2">{{ .PaymentMean }}</td>
         <td>
           <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">{{ .InvoiceDate }}</span>
         </td>
+        <td>
+          <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">{{ .DueDate }}</span>
+        </td>
+        <td class="py-2">{{ .PaymentMean }}</td>
         <td class="text-right">{{ .AmountDue }}</td>
         <td class="text-right">{{ .TotalPaid }}</td>
       </tr>
