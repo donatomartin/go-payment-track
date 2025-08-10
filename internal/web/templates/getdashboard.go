@@ -65,8 +65,9 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		PartialInvoicesCount   int
 		CompletedInvoicesCount int
 		Pagination             Pagination
+		Status                 string
 	}{
-		Title:                  "Dashboard",
+		Title:                  "Pagos",
 		Payments:               paymentViews,
 		DelayedInvoicesCount:   delayedInvoicesCount,
 		DelayedInvoicesAmount:  util.Float64ToEuros(delayedInvoicesAmount),
@@ -75,6 +76,7 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		PartialInvoicesCount:   partialInvoicesCount,
 		CompletedInvoicesCount: completedInvoicesCount,
 		Pagination:             pagination,
+		Status:                 "all",
 	}
 
 	if err := t.ExecuteTemplate(w, "dashboard.html", data); err != nil {

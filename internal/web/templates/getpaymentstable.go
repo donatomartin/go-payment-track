@@ -50,10 +50,12 @@ func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Reque
 		Title      string
 		Payments   []PaymentView
 		Pagination Pagination
+		Status     string
 	}{
 		Title:      "Todos los pagos",
 		Payments:   paymentViews,
 		Pagination: pagination,
+		Status:     "",
 	}
 
 	if err := t.ExecuteTemplate(w, "payments_table.html", data); err != nil {

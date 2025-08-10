@@ -5,19 +5,19 @@ import (
 	"context"
 )
 
-func (r *InvoiceRepository) GetPendingInvoices(ctx context.Context) ([]invoice.Invoice, error) {
+func (r *InvoiceRepository) GetPendingInvoices(ctx context.Context, offset, limit int) ([]invoice.Invoice, error) {
 	query := `
-		SELECT
-		 invoices.id,
-		 invoices.customer_name,
-		 invoices.amount_due,
-		 COALESCE(SUM(payments.amount),0) as total_paid
-		FROM invoices
-		LEFT JOIN payments ON invoices.id = payments.invoice_id
-		GROUP BY invoices.id, invoices.customer_name, invoices.amount_due
-		HAVING total_paid < amount_due
-	`
-	rows, err := r.db.QueryContext(ctx, query)
+                SELECT
+                        invoices.*,
+                        COALESCE(SUM(payments.amount),0) as total_paid
+                FROM invoices
+                LEFT JOIN payments ON invoices.id = payments.invoice_id
+                GROUP BY invoices.id
+                HAVING total_paid < amount_due
+                ORDER BY invoices.created_at DESC
+                LIMIT ? OFFSET ?
+        `
+	rows, err := r.db.QueryContext(ctx, query, limit, offset)
 	if err != nil {
 		return nil, err
 	}

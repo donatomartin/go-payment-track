@@ -58,10 +58,12 @@ func (h *DashboardHandler) getPaymentsFragment(w http.ResponseWriter, r *http.Re
 		Title      string
 		Payments   []PaymentView
 		Pagination Pagination
+		Status     string
 	}{
 		Title:      "Payments",
 		Payments:   paymentViews,
 		Pagination: pagination,
+		Status:     "",
 	}
 
 	templateFS, err := fs.Sub(web.WebFS, "templates")

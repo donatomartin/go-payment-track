@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"app/internal/invoice"
 	"app/web"
 	"html/template"
 	"io/fs"
@@ -14,6 +15,8 @@ func (h *DashboardHandler) getInvoicesFragment(w http.ResponseWriter, r *http.Re
 		http.NotFound(w, r)
 		return
 	}
+
+	status := r.URL.Query().Get("status")
 
 	requestShowSizeSelector := r.URL.Query().Get("showSizeSelector")
 	requestSortBy := r.URL.Query().Get("sortBy")
@@ -46,7 +49,28 @@ func (h *DashboardHandler) getInvoicesFragment(w http.ResponseWriter, r *http.Re
 		SorDir:           paginationSortDir,
 	}
 
-	invoices, err := h.invoiceRepo.GetAll(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
+	var (
+		invoices []invoice.Invoice
+		title    string
+	)
+
+	switch status {
+	case "completed":
+		invoices, err = h.invoiceRepo.GetCompletedInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas Completadas"
+	case "pending":
+		invoices, err = h.invoiceRepo.GetPendingInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas Pendientes"
+	case "delayed":
+		invoices, err = h.invoiceRepo.GetDelayedInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas Demoradas"
+	case "partial":
+		invoices, err = h.invoiceRepo.GetPartialInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas en proceso de pago"
+	default:
+		invoices, err = h.invoiceRepo.GetAll(r.Context(), "created_at", "desc", pagination.GetOffset(), pagination.Size)
+		title = "Todas las facturas"
+	}
 	if err != nil {
 		http.Error(w, "Failed to get invoices: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -58,10 +82,12 @@ func (h *DashboardHandler) getInvoicesFragment(w http.ResponseWriter, r *http.Re
 		Title      string
 		Invoices   []InvoiceView
 		Pagination Pagination
+		Status     string
 	}{
-		Title:      "Invoices",
+		Title:      title,
 		Invoices:   invoiceViews,
 		Pagination: pagination,
+		Status:     status,
 	}
 
 	templateFS, err := fs.Sub(web.WebFS, "templates")

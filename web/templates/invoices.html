@@ -1,5 +1,6 @@
 {{ define "invoices" }}
 <div id="invoices-fragment" class="bg-gray-800 p-6 rounded-lg">
+  <input type="hidden" name="status" value="{{ .Status }}">
   <div class="flex justify-between items-center">
     <h3 class="flex text-lg font-semibold">{{ .Title }}</h3>
 

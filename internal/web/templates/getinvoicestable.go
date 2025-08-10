@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"app/internal/invoice"
 	"app/web"
 	"html/template"
 	"io/fs"
@@ -12,6 +13,11 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 	if r.URL.Path != "/invoices" {
 		http.NotFound(w, r)
 		return
+	}
+
+	status := r.URL.Query().Get("status")
+	if status == "" {
+		status = "all" // Default to "all" if no status is provided
 	}
 
 	templateFS, err := fs.Sub(web.WebFS, "templates")
@@ -38,7 +44,28 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		SorDir:           "desc",
 	}
 
-	invoices, err := h.invoiceRepo.GetAll(r.Context(), "invoice_date", "desc", pagination.GetOffset(), pagination.Size)
+	var (
+		invoices []invoice.Invoice
+		title    string
+	)
+
+	switch status {
+	case "completed":
+		invoices, err = h.invoiceRepo.GetCompletedInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas Completadas"
+	case "pending":
+		invoices, err = h.invoiceRepo.GetPendingInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas Pendientes"
+	case "delayed":
+		invoices, err = h.invoiceRepo.GetDelayedInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas Demoradas"
+	case "partial":
+		invoices, err = h.invoiceRepo.GetPartialInvoices(r.Context(), pagination.GetOffset(), pagination.Size)
+		title = "Facturas en proceso de pago"
+	default:
+		invoices, err = h.invoiceRepo.GetAll(r.Context(), "invoice_date", "desc", pagination.GetOffset(), pagination.Size)
+		title = "Todas las facturas"
+	}
 	if err != nil {
 		http.Error(w, "Failed to get invoices: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -50,10 +77,12 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 		Title      string
 		Invoices   []InvoiceView
 		Pagination Pagination
+		Status     string
 	}{
-		Title:      "Todas las facturas",
+		Title:      title,
 		Invoices:   invoiceViews,
 		Pagination: pagination,
+		Status:     status,
 	}
 
 	if err := t.ExecuteTemplate(w, "invoices_table.html", data); err != nil {

@@ -13,7 +13,7 @@ func main() {
 
 	repo := repository.NewInvoiceRepository(db)
 
-	invoices, err := repo.GetDelayedInvoices(context.Background())
+	invoices, err := repo.GetDelayedInvoices(context.Background(), 0, 10)
 	if err != nil {
 		panic(err)
 	}

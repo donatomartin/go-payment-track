@@ -5,17 +5,16 @@ import (
 	"context"
 )
 
-func (r *InvoiceRepository) GetDelayedInvoices(ctx context.Context, offset, limit int) ([]invoice.Invoice, error) {
+func (r *InvoiceRepository) GetCompletedInvoices(ctx context.Context, offset, limit int) ([]invoice.Invoice, error) {
 	query := `
                 SELECT
                         invoices.*,
                         COALESCE(SUM(payments.amount),0) as total_paid
                 FROM invoices
-                LEFT JOIN payments ON invoices.id = payments.invoice_id
-                WHERE due_date < CURRENT_TIMESTAMP
+                JOIN payments ON invoices.id = payments.invoice_id
                 GROUP BY invoices.id
-                HAVING total_paid < amount_due
-                ORDER BY invoices.due_date DESC
+                HAVING total_paid = amount_due
+                ORDER BY invoices.created_at DESC
                 LIMIT ? OFFSET ?
         `
 	rows, err := r.db.QueryContext(ctx, query, limit, offset)
