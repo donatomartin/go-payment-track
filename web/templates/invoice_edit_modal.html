@@ -1,0 +1,35 @@
+{{ define "invoice_edit_modal" }}
+<div id="edit-invoice-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center hidden">
+  <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full">
+    <h2 class="text-2xl font-bold text-white mb-6">Editar Factura</h2>
+    <form id="invoice-edit-form" hx-post="/api/v1/invoices/update" hx-target="#edit-invoice-form-messages" hx-swap="innerHTML">
+      <input type="hidden" id="edit-invoice-id" name="id">
+      <div class="mb-4">
+        <label for="edit-customer-name" class="block text-sm font-medium text-gray-300 mb-2">Nombre del Cliente</label>
+        <input type="text" id="edit-customer-name" name="customer-name" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="edit-amount-due" class="block text-sm font-medium text-gray-300 mb-2">Cantidad a Pagar</label>
+        <input type="number" step="any" id="edit-amount-due" name="amount-due" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="edit-payment-mean" class="block text-sm font-medium text-gray-300 mb-2">Medio de Pago</label>
+        <input type="text" id="edit-payment-mean" name="payment-mean" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="edit-invoice-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha de Factura</label>
+        <input type="date" id="edit-invoice-date" name="invoice-date" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="edit-due-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha de Vencimiento</label>
+        <input type="date" id="edit-due-date" name="due-date" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button type="button" id="close-edit-invoice-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors">Guardar</button>
+      </div>
+      <div id="edit-invoice-form-messages"></div>
+    </form>
+  </div>
+</div>
+{{ end }}

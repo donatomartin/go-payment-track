@@ -13,15 +13,19 @@
 
 <body>
 
-  <!-- Modals -->
-  {{ template "payment_modal" . }}
-  {{ template "invoice_modal" . }}
-  {{ template "settings_modal" . }}
+    <!-- Modals -->
+    {{ template "payment_modal" . }}
+    {{ template "payment_edit_modal" . }}
+    {{ template "invoice_modal" . }}
+    {{ template "invoice_edit_modal" . }}
+    {{ template "settings_modal" . }}
 
   {{ template "content" . }}
 
 
   <script src="/static/scripts/modals.js"></script>
+  <script src="/static/scripts/payments.js"></script>
+  <script src="/static/scripts/invoices.js"></script>
 
 </body>
 

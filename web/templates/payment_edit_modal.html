@@ -1,0 +1,27 @@
+{{ define "payment_edit_modal" }}
+<div id="edit-payment-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center hidden">
+  <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full">
+    <h2 class="text-2xl font-bold text-white mb-6">Editar Pago</h2>
+    <form id="payment-edit-form" hx-post="/api/v1/payments/update" hx-target="#edit-payment-form-messages" hx-swap="innerHTML">
+      <input type="hidden" id="edit-id" name="id">
+      <div class="mb-4">
+        <label for="edit-invoice-id" class="block text-sm font-medium text-gray-300 mb-2">ID de Factura</label>
+        <input type="text" id="edit-invoice-id" name="invoice-id" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="edit-amount" class="block text-sm font-medium text-gray-300 mb-2">Cantidad</label>
+        <input type="number" id="edit-amount" name="amount" step="0.01" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label for="edit-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha</label>
+        <input type="date" id="edit-date" name="date" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button type="button" id="close-edit-payment-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors">Guardar</button>
+      </div>
+      <div id="edit-payment-form-messages"></div>
+    </form>
+  </div>
+</div>
+{{ end }}

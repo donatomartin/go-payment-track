@@ -1,5 +1,5 @@
 {{ define "payments" }}
-<div id="payments-fragment" class="bg-gray-800 p-6 rounded-lg">
+<div id="payments-fragment" class="bg-gray-800 p-6 rounded-lg" hx-get="/payments/fragment" hx-trigger="paymentsUpdated from:body" hx-swap="outerHTML">
   <div class="flex justify-between items-center">
     <h3 class="flex text-lg font-semibold">{{ .Title }}</h3>
 
@@ -18,11 +18,11 @@
     </thead>
     <tbody class="divide-y divide-gray-700">
       {{ range .Payments }}
-      <tr class="hover:bg-gray-700 transition-colors">
+      <tr class="hover:bg-gray-700 transition-colors" data-payment-id="{{ .ID }}" data-invoice-id="{{ .InvoiceID }}" data-amount="{{ .AmountRaw }}" data-date="{{ .Date }}">
         <td class="py-2">{{ .ID }}</td>
         <td class="py-2">{{ .InvoiceID }}</td>
         <td class="py-2">{{ .ClientName }}</td>
-        <td>
+        <td class="py-2">
           <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">{{ .Date }}</span>
         </td>
         <td class="text-right">{{ .Amount }}</td>

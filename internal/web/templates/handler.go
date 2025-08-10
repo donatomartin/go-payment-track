@@ -38,6 +38,7 @@ type PaymentView struct {
 	ID         int
 	InvoiceID  string
 	Amount     string
+	AmountRaw  float64
 	Date       string
 	ClientName string
 }
@@ -46,6 +47,7 @@ type InvoiceView struct {
 	ID           string
 	CustomerName string
 	AmountDue    string
+	AmountDueRaw float64
 	PaymentMean  string
 	InvoiceDate  string
 	DueDate      string
@@ -82,6 +84,7 @@ func paymentsToPaymentViews(payments []payment.Payment) []PaymentView {
 			ID:         payment.ID,
 			InvoiceID:  payment.InvoiceID,
 			Amount:     util.Float64ToEuros(payment.Amount),
+			AmountRaw:  payment.Amount,
 			Date:       payment.Date.Format("2006-01-02"),
 			ClientName: payment.ClientName,
 		})
@@ -96,6 +99,7 @@ func invoicesToInvoiceViews(invoices []invoice.Invoice) []InvoiceView {
 			ID:           invoice.ID,
 			CustomerName: invoice.CustomerName,
 			AmountDue:    util.Float64ToEuros(invoice.AmountDue),
+			AmountDueRaw: invoice.AmountDue,
 			PaymentMean:  invoice.PaymentMean,
 			InvoiceDate:  invoice.InvoiceDate.Format("2006-01-02"),
 			DueDate:      invoice.DueDate.Format("2006-01-02"),

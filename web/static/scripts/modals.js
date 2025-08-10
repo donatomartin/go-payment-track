@@ -20,10 +20,20 @@ addPaymentButtons.forEach((button) => {
   });
 });
 
-closePaymentModal.addEventListener("click", () => {
-  paymentModal.classList.add("hidden");
-  paymentModal.classList.remove("flex");
-});
+  closePaymentModal.addEventListener("click", () => {
+    paymentModal.classList.add("hidden");
+    paymentModal.classList.remove("flex");
+  });
+
+// Edit Payment Modal
+const closeEditPaymentModal = document.getElementById("close-edit-payment-modal");
+if (closeEditPaymentModal) {
+  const editPaymentModalEl = document.getElementById("edit-payment-modal");
+  closeEditPaymentModal.addEventListener("click", () => {
+    editPaymentModalEl.classList.add("hidden");
+    editPaymentModalEl.classList.remove("flex");
+  });
+}
 
 // Invoice Modal
 const invoiceModal = document.getElementById("invoice-modal");
@@ -48,6 +58,16 @@ closeInvoiceModal.addEventListener("click", () => {
   invoiceModal.classList.add("hidden");
   invoiceModal.classList.remove("flex");
 });
+
+// Edit Invoice Modal
+const closeEditInvoiceModal = document.getElementById("close-edit-invoice-modal");
+if (closeEditInvoiceModal) {
+  const editInvoiceModalEl = document.getElementById("edit-invoice-modal");
+  closeEditInvoiceModal.addEventListener("click", () => {
+    editInvoiceModalEl.classList.add("hidden");
+    editInvoiceModalEl.classList.remove("flex");
+  });
+}
 
 // Settings Modal
 const settingsModal = document.getElementById("settings-modal");

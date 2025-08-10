@@ -1,5 +1,5 @@
 {{ define "invoices" }}
-<div id="invoices-fragment" class="bg-gray-800 p-6 rounded-lg">
+<div id="invoices-fragment" class="bg-gray-800 p-6 rounded-lg" hx-get="/invoices/fragment" hx-trigger="invoicesUpdated from:body" hx-swap="outerHTML">
   <input type="hidden" name="status" value="{{ .Status }}">
   <div class="flex justify-between items-center">
     <h3 class="flex text-lg font-semibold">{{ .Title }}</h3>
@@ -21,7 +21,7 @@
     </thead>
     <tbody class="divide-y divide-gray-700">
       {{ range .Invoices }}
-      <tr class="hover:bg-gray-700 transition-colors">
+      <tr class="hover:bg-gray-700 transition-colors" data-invoice-id="{{ .ID }}" data-customer-name="{{ .CustomerName }}" data-amount-due="{{ .AmountDueRaw }}" data-payment-mean="{{ .PaymentMean }}" data-invoice-date="{{ .InvoiceDate }}" data-due-date="{{ .DueDate }}">
         <td class="py-2">{{ .ID }}</td>
         <td class="py-2">{{ .CustomerName }}</td>
         <td>
