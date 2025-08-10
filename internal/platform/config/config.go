@@ -12,8 +12,8 @@ type Config struct {
 
 func Load() (*Config, error) {
 	return &Config{
-		Port:        getEnv("PORT", "8080"),
-		DatabaseURL: getEnv("DATABASE_URL", "./app.db"),
+		Port:        getEnv("PORT", "8081"),
+		DatabaseURL: getEnv("DATABASE_URL", "file:./app.db?_pragma=foreign_keys(ON)"),
 		Env:         getEnv("ENV", "dev"),
 	}, nil
 }

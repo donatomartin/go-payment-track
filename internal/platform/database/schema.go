@@ -19,7 +19,10 @@ var migrations = []migration{
 				amount NUMERIC NOT NULL,
 				date TIMESTAMP NOT NULL,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    		FOREIGN KEY (invoice_id) REFERENCES invoices(id)
+					ON UPDATE CASCADE
+					ON DELETE CASCADE
 			);
 
 			CREATE TABLE IF NOT EXISTS invoices (
