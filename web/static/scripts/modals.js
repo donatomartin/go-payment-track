@@ -48,3 +48,22 @@ closeInvoiceModal.addEventListener("click", () => {
   invoiceModal.classList.add("hidden");
   invoiceModal.classList.remove("flex");
 });
+
+// Settings Modal
+const settingsModal = document.getElementById("settings-modal");
+const openSettingsModal = document.getElementById("open-settings-modal");
+const closeSettingsModal = document.getElementById("close-settings-modal");
+
+if (openSettingsModal) {
+  openSettingsModal.addEventListener("click", () => {
+    settingsModal.classList.remove("hidden");
+    settingsModal.classList.add("flex");
+  });
+}
+
+if (closeSettingsModal) {
+  closeSettingsModal.addEventListener("click", () => {
+    settingsModal.classList.add("hidden");
+    settingsModal.classList.remove("flex");
+  });
+}
