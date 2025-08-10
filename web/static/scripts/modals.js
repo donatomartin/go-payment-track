@@ -67,3 +67,27 @@ if (closeSettingsModal) {
     settingsModal.classList.remove("flex");
   });
 }
+
+const importFile = document.getElementById("import-file");
+const importDataButton = document.querySelector(".quick-access button:nth-child(3)");
+if (importDataButton && importFile) {
+  importDataButton.addEventListener("click", () => importFile.click());
+}
+
+const exportModal = document.getElementById("export-modal");
+const openExportModal = document.querySelector(".quick-access button:nth-child(4)");
+const closeExportModal = document.getElementById("close-export-modal");
+
+if (openExportModal && exportModal) {
+  openExportModal.addEventListener("click", () => {
+    exportModal.classList.remove("hidden");
+    exportModal.classList.add("flex");
+  });
+}
+
+if (closeExportModal && exportModal) {
+  closeExportModal.addEventListener("click", () => {
+    exportModal.classList.add("hidden");
+    exportModal.classList.remove("flex");
+  });
+}

@@ -25,4 +25,6 @@ func NewApiAdminHandler(paymentRepo paymentRepo.PaymentRepository, invoiceRepo i
 
 func (h *ApiAdminHandler) RegisterRoutes() {
 	h.mux.HandleFunc("/api/v1/admin/clear", h.clearDatabase)
+	h.mux.HandleFunc("/api/v1/admin/import", h.importData)
+	h.mux.HandleFunc("/api/v1/admin/export", h.exportData)
 }
