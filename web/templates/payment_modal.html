@@ -5,17 +5,17 @@
     <form id="payment-add-form" hx-post="/api/v1/payments/add" hx-target="#payment-form-messages" hx-swap="innerHTML">
       <div class="mb-4">
         <label for="invoice-id" class="block text-sm font-medium text-gray-300 mb-2">ID de Factura</label>
-        <input type="text" id="invoice-id" name="invoice-id"
+        <input type="text" id="invoice-id" name="invoice-id" required
           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
       </div>
       <div class="mb-4">
         <label for="amount" class="block text-sm font-medium text-gray-300 mb-2">Cantidad</label>
-        <input type="number" id="amount" name="amount"
+        <input type="number" id="amount" name="amount" step="0.01" required
           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
       </div>
       <div class="mb-4">
         <label for="date" class="block text-sm font-medium text-gray-300 mb-2">Fecha</label>
-        <input type="date" id="date" name="date"
+        <input type="date" id="date" name="date" required
           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
       </div>
       <div class="flex justify-end space-x-4">
@@ -24,7 +24,7 @@
         <button type="submit"
           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors">Guardar</button>
       </div>
-      <div id="payment-form-messages" class="mb-4 text-sm text-red-400"></div>
+      <div id="payment-form-messages" class="mb-4 mt-2 text-sm text-red-400"></div>
     </form>
   </div>
 </div>
