@@ -25,12 +25,12 @@
       </div>
       <div class="mb-4">
         <label for="invoice-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha de Factura</_label>
-          <input type="date" id="invoice-date" name="invoice-date"
+          <input type="date" id="invoice-date" name="invoice-date" value="{{ .CurrentDate }}"
             class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
       </div>
       <div class="mb-4">
         <label for="due-date" class="block text-sm font-medium text-gray-300 mb-2">Fecha de Vencimiento</label>
-        <input type="date" id="due-date" name="due-date"
+        <input type="date" id="due-date" name="due-date" value="{{ .CurrentDate }}"
           class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
       </div>
       <div class="flex justify-end space-x-4">

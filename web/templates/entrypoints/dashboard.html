@@ -99,7 +99,7 @@
         <form action="/api/v1/admin/export" method="GET" class="space-y-4">
           <div>
             <label for="export-year" class="block text-sm text-white mb-1">Año</label>
-            <input type="number" id="export-year" name="year" class="w-full bg-gray-700 text-white p-2 rounded" min="2000" max="2100" required>
+            <input type="number" id="export-year" name="year" value="{{ .CurrentYear }}" class="w-full bg-gray-700 text-white p-2 rounded" min="2000" max="2100" required>
           </div>
           <div class="flex justify-end space-x-2">
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition-colors">Exportar</button>

@@ -37,21 +37,28 @@ func (h *ApiInvoiceHandler) addInvoice(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(buf))
 		return
 	}
-	parsedDate, err := time.Parse("2006-01-02", bodyDate)
-	if err != nil {
-		h.logger.Printf("Invalid date format: %v", err)
-		w.Header().Set("Content-Type", "text/html")
-		buf := `<div class="text-red-400">Formato de fecha inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
-		w.Write([]byte(buf))
-		return
+	parsedDate := time.Now()
+	if bodyDate != "" {
+		parsedDate, err = time.Parse("2006-01-02", bodyDate)
+		if err != nil {
+			h.logger.Printf("Invalid date format: %v", err)
+			w.Header().Set("Content-Type", "text/html")
+			buf := `<div class="text-red-400">Formato de fecha inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
+			w.Write([]byte(buf))
+			return
+		}
 	}
-	parsedDueDate, err := time.Parse("2006-01-02", bodyDueDate)
-	if err != nil {
-		h.logger.Printf("Invalid due date format: %v", err)
-		w.Header().Set("Content-Type", "text/html")
-		buf := `<div class="text-red-400">Formato de fecha de vencimiento inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
-		w.Write([]byte(buf))
-		return
+
+	parsedDueDate := time.Now()
+	if bodyDueDate != "" {
+		parsedDueDate, err = time.Parse("2006-01-02", bodyDueDate)
+		if err != nil {
+			h.logger.Printf("Invalid due date format: %v", err)
+			w.Header().Set("Content-Type", "text/html")
+			buf := `<div class="text-red-400">Formato de fecha de vencimiento inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
+			w.Write([]byte(buf))
+			return
+		}
 	}
 
 	err = h.repo.AddInvoice(r.Context(), &invoice.Invoice{

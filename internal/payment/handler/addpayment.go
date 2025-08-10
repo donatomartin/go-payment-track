@@ -31,13 +31,17 @@ func (h *ApiPaymentHandler) addPayment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	parsedInvoiceID := strings.Trim(bodyInvoiceID, " \t\n\r")
-	parsedDate, err := time.Parse("2006-01-02", bodyDate)
-	if err != nil {
-		h.logger.Printf("Invalid date format: %v", err)
-		w.Header().Set("Content-Type", "text/html")
-		buf := `<div class="text-red-400">Formato de fecha inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
-		w.Write([]byte(buf))
-		return
+
+	parsedDate := time.Now()
+	if bodyDate != "" {
+		parsedDate, err = time.Parse("2006-01-02", bodyDate)
+		if err != nil {
+			h.logger.Printf("Invalid date format: %v", err)
+			w.Header().Set("Content-Type", "text/html")
+			buf := `<div class="text-red-400">Formato de fecha inválido. Por favor, usa el formato AAAA-MM-DD.</div>`
+			w.Write([]byte(buf))
+			return
+		}
 	}
 
 	// Add the payment

@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/fs"
 	"net/http"
+	"time"
 )
 
 func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +49,9 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 
 	paymentViews := paymentsToPaymentViews(payments)
 
+	currentDate := time.Now().Format("2006-01-02")
+	currentYear := time.Now().Year()
+
 	delayedInvoicesCount, err := h.invoiceRepo.GetDelayedInvoicesCount(r.Context())
 	delayedInvoicesAmount, err := h.invoiceRepo.GetDelayedInvoicesAmount(r.Context())
 	pendingInvoicesCount, err := h.invoiceRepo.GetPendingInvoicesCount(r.Context())
@@ -66,6 +70,8 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		CompletedInvoicesCount int
 		Pagination             Pagination
 		Status                 string
+		CurrentDate            string
+		CurrentYear            int
 	}{
 		Title:                  "Pagos",
 		Payments:               paymentViews,
@@ -77,6 +83,8 @@ func (h *DashboardHandler) getDashboard(w http.ResponseWriter, r *http.Request) 
 		CompletedInvoicesCount: completedInvoicesCount,
 		Pagination:             pagination,
 		Status:                 "all",
+		CurrentDate:            currentDate,
+		CurrentYear:            currentYear,
 	}
 
 	if err := t.ExecuteTemplate(w, "dashboard.html", data); err != nil {

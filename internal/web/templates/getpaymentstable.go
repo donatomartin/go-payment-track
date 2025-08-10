@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io/fs"
 	"net/http"
+	"time"
 )
 
 func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Request) {
@@ -46,16 +47,23 @@ func (h *DashboardHandler) getPaymentsTable(w http.ResponseWriter, r *http.Reque
 
 	paymentViews := paymentsToPaymentViews(payments)
 
+	currentDate := time.Now().Format("2006-01-02")
+	currentYear := time.Now().Year()
+
 	data := struct {
-		Title      string
-		Payments   []PaymentView
-		Pagination Pagination
-		Status     string
+		Title       string
+		Payments    []PaymentView
+		Pagination  Pagination
+		Status      string
+		CurrentDate string
+		CurrentYear int
 	}{
-		Title:      "Todos los pagos",
-		Payments:   paymentViews,
-		Pagination: pagination,
-		Status:     "",
+		Title:       "Todos los pagos",
+		Payments:    paymentViews,
+		Pagination:  pagination,
+		Status:      "",
+		CurrentDate: currentDate,
+		CurrentYear: currentYear,
 	}
 
 	if err := t.ExecuteTemplate(w, "payments_table.html", data); err != nil {

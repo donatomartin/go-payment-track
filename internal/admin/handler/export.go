@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"app/internal/admin/data"
 )
@@ -15,14 +16,16 @@ func (h *ApiAdminHandler) exportData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	yearStr := r.URL.Query().Get("year")
+	var year int
+	var err error
 	if yearStr == "" {
-		http.Error(w, "missing year", http.StatusBadRequest)
-		return
-	}
-	year, err := strconv.Atoi(yearStr)
-	if err != nil {
-		http.Error(w, "invalid year", http.StatusBadRequest)
-		return
+		year = time.Now().Year()
+	} else {
+		year, err = strconv.Atoi(yearStr)
+		if err != nil {
+			http.Error(w, "invalid year", http.StatusBadRequest)
+			return
+		}
 	}
 
 	f, err := data.ExportData(r.Context(), h.paymentRepo, h.invoiceRepo, year)

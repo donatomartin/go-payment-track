@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/fs"
 	"net/http"
+	"time"
 )
 
 func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Request) {
@@ -73,16 +74,23 @@ func (h *DashboardHandler) getInvoicesTable(w http.ResponseWriter, r *http.Reque
 
 	invoiceViews := invoicesToInvoiceViews(invoices)
 
+	currentDate := time.Now().Format("2006-01-02")
+	currentYear := time.Now().Year()
+
 	data := struct {
-		Title      string
-		Invoices   []InvoiceView
-		Pagination Pagination
-		Status     string
+		Title       string
+		Invoices    []InvoiceView
+		Pagination  Pagination
+		Status      string
+		CurrentDate string
+		CurrentYear int
 	}{
-		Title:      title,
-		Invoices:   invoiceViews,
-		Pagination: pagination,
-		Status:     status,
+		Title:       title,
+		Invoices:    invoiceViews,
+		Pagination:  pagination,
+		Status:      status,
+		CurrentDate: currentDate,
+		CurrentYear: currentYear,
 	}
 
 	if err := t.ExecuteTemplate(w, "invoices_table.html", data); err != nil {
