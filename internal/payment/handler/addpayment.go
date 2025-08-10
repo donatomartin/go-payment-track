@@ -2,6 +2,7 @@ package handler
 
 import (
 	"app/internal/payment"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -34,9 +35,9 @@ func (h *ApiPaymentHandler) addPayment(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		h.logger.Printf("Error adding payment: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(`<div class="text-red-400">Error al agregar el pago. Inténtalo de nuevo.</div>`))
+		buf := fmt.Sprintf(`<div class="text-red-400">Error al agregar el pago. %v. Inténtalo de nuevo.</div>`, err.Error())
+		w.Write([]byte(buf))
 		return
 	}
 	w.Header().Set("Content-Type", "text/html")
