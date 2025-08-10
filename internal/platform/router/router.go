@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	adminHandler "app/internal/admin/handler"
 	invoiceHandler "app/internal/invoice/handler"
 	invoiceRepo "app/internal/invoice/repository"
 	paymentHandler "app/internal/payment/handler"
@@ -18,6 +19,7 @@ func NewRouter(paymentRepo paymentRepo.PaymentRepository, invoiceRepo invoiceRep
 	mux := http.NewServeMux()
 
 	// API Handlers
+	adminHandler.NewApiAdminHandler(paymentRepo, invoiceRepo, logger, mux).RegisterRoutes()
 	paymentHandler.NewApiPaymentHandler(paymentRepo, logger, mux).RegisterRoutes()
 	invoiceHandler.NewApiInvoiceHandler(invoiceRepo, logger, mux).RegisterRoutes()
 
