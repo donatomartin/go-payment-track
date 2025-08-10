@@ -41,17 +41,9 @@ func main() {
 	}
 	defer db.Close()
 
-	// Do Development tasks
-	if cfg.Env == "dev" {
-
-		// Apply schema if in dev
-		if err := database.ApplySchema(db); err != nil {
-			logger.Fatalf("Schema setup failed: %v", err)
-
-		} else {
-			logger.Println("Schema applied successfully")
-		}
-
+	// Apply database schema (migrations)
+	if err := database.ApplySchema(db); err != nil {
+		logger.Fatalf("Schema setup failed: %v", err)
 	}
 
 	// Initialize repositories and services
