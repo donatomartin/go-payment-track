@@ -1,0 +1,54 @@
+{{ define "invoices_summary" }}
+<div class="bg-gray-800 p-6 rounded-lg space-y-4 h-96">
+  <h3 class="text-lg font-semibold">Facturas</h3>
+  <ul class="space-y-3">
+    <li class="flex justify-between items-center">
+      <button
+        class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        onclick="location.href='/invoices?status=completed'">
+        <span class="rounded-lg flex items-center space-x-2"><span>🔔</span><span>Facturas
+            Completadas</span></span>
+        <span>{{ .CompletedInvoicesCount }}</span>
+      </button>
+    </li>
+    <li class="flex justify-between items-center">
+      <button
+        class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        onclick="location.href='/invoices?status=pending'">
+        <span class="flex items-center space-x-2"><span>💵</span><span>Facturas Pendientes</span></span>
+        <span>{{ .PendingInvoicesCount }}</span>
+      </button>
+    </li>
+    <li class="flex justify-between items-center">
+      <button
+        class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        onclick="location.href='/invoices?status=delayed'">
+        <span class="flex items-center space-x-2"><span>📅</span><span>Facturas Demoradas</span></span>
+        <span>{{ .DelayedInvoicesCount }}</span>
+      </button>
+    </li>
+    <li class="flex justify-between items-center">
+      <button
+        class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        onclick="location.href='/invoices?status=partial'">
+        <span class="flex items-center space-x-2"><span>🕑</span><span>Facturas en proceso de pago</span></span>
+        <span>{{ .PartialInvoicesCount }}</span>
+      </button>
+    </li>
+    <li class="flex gap-2 justify-between items-center">
+      <button
+        class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        onclick="location.href='/invoices?status=pending'">
+        <span class="flex items-center space-x-2"><span>📊</span><span>Facturación Pendiente</span></span>
+        <span>{{ .PendingInvoicesAmount }}</span>
+      </button>
+      <button
+        class="flex justify-between items-center w-full bg-gray-700 border border-gray-600 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        onclick="location.href='/invoices?status=delayed'">
+        <span class="flex items-center space-x-2"><span>📈</span><span>Facturación Demorada</span></span>
+        <span>{{ .DelayedInvoicesAmount }}</span>
+      </button>
+    </li>
+  </ul>
+</div>
+{{ end }}
