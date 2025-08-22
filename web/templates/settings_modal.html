@@ -8,7 +8,9 @@
       </form>
       <div id="settings-form-messages" class="mb-4 text-sm text-red-400"></div>
       <div class="flex justify-end">
-        <button type="button" id="close-settings-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cerrar</button>
+        <button type="button" id="close-settings-modal"
+          hx-on:click="let m=htmx.find('#settings-modal'); m.classList.add('hidden'); m.classList.remove('flex')"
+          class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cerrar</button>
       </div>
     </div>
   </div>

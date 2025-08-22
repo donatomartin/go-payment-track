@@ -45,7 +45,8 @@
     </thead>
     <tbody class="divide-y divide-gray-700">
       {{ range .Payments }}
-      <tr class="hover:bg-gray-700 transition-colors" data-payment-id="{{ .ID }}" data-invoice-id="{{ .InvoiceID }}" data-amount="{{ .AmountRaw }}" data-date="{{ .Date }}">
+      <tr class="hover:bg-gray-700 transition-colors" data-payment-id="{{ .ID }}" data-invoice-id="{{ .InvoiceID }}" data-amount="{{ .AmountRaw }}" data-date="{{ .Date }}"
+        hx-on:dblclick="htmx.find('#edit-id').value=this.dataset.paymentId; htmx.find('#edit-invoice-id').value=this.dataset.invoiceId; htmx.find('#edit-amount').value=this.dataset.amount; htmx.find('#edit-date').value=this.dataset.date; let msg=htmx.find('#edit-payment-form-messages'); if(msg){msg.innerHTML=''}; let m=htmx.find('#edit-payment-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
         <td class="py-2">{{ .ID }}</td>
         <td class="py-2">{{ .InvoiceID }}</td>
         <td class="py-2">{{ .ClientName }}</td>

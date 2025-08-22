@@ -2,7 +2,8 @@
 <div id="edit-invoice-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center hidden">
   <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full">
     <h2 class="text-2xl font-bold text-white mb-6">Editar Factura</h2>
-    <form id="invoice-edit-form" hx-post="/api/v1/invoices/update" hx-target="#edit-invoice-form-messages" hx-swap="innerHTML">
+    <form id="invoice-edit-form" hx-post="/api/v1/invoices/update" hx-target="#edit-invoice-form-messages" hx-swap="innerHTML"
+      hx-on="htmx:afterRequest: if(event.detail.xhr.status===200){ let m=htmx.find('#edit-invoice-modal'); m.classList.add('hidden'); m.classList.remove('flex'); this.reset(); let msg=htmx.find('#edit-invoice-form-messages'); if(msg){msg.innerHTML=''}; htmx.trigger('body','invoicesUpdated'); }">
       <input type="hidden" id="edit-invoice-id" name="id">
       <div class="mb-4">
         <label for="edit-customer-name" class="block text-sm font-medium text-gray-300 mb-2">Nombre del Cliente</label>
@@ -25,7 +26,9 @@
         <input type="date" id="edit-due-date" name="due-date" required class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-2 focus:outline-none focus:border-blue-500">
       </div>
       <div class="flex justify-end space-x-4">
-        <button type="button" id="close-edit-invoice-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
+        <button type="button" id="close-edit-invoice-modal"
+          hx-on:click="let m=htmx.find('#edit-invoice-modal'); m.classList.add('hidden'); m.classList.remove('flex')"
+          class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors">Guardar</button>
       </div>
       <div id="edit-invoice-form-messages"></div>

@@ -58,7 +58,8 @@
     </thead>
     <tbody class="divide-y divide-gray-700">
       {{ range .Invoices }}
-      <tr class="hover:bg-gray-700 transition-colors" data-invoice-id="{{ .ID }}" data-customer-name="{{ .CustomerName }}" data-amount-due="{{ .AmountDueRaw }}" data-payment-mean="{{ .PaymentMean }}" data-invoice-date="{{ .InvoiceDate }}" data-due-date="{{ .DueDate }}">
+      <tr class="hover:bg-gray-700 transition-colors" data-invoice-id="{{ .ID }}" data-customer-name="{{ .CustomerName }}" data-amount-due="{{ .AmountDueRaw }}" data-payment-mean="{{ .PaymentMean }}" data-invoice-date="{{ .InvoiceDate }}" data-due-date="{{ .DueDate }}"
+        hx-on:dblclick="htmx.find('#edit-invoice-id').value=this.dataset.invoiceId; htmx.find('#edit-customer-name').value=this.dataset.customerName; htmx.find('#edit-amount-due').value=this.dataset.amountDue; htmx.find('#edit-payment-mean').value=this.dataset.paymentMean; htmx.find('#edit-invoice-date').value=this.dataset.invoiceDate; htmx.find('#edit-due-date').value=this.dataset.dueDate; let msg=htmx.find('#edit-invoice-form-messages'); if(msg){msg.innerHTML=''}; let m=htmx.find('#edit-invoice-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
         <td class="py-2">{{ .ID }}</td>
         <td class="py-2">{{ .CustomerName }}</td>
         <td>

@@ -13,11 +13,13 @@
         <span class="text-black">Inicio</span>
       </button>
       <button
-        class="w-48 flex items-center space-x-2 text-sm bg-gray-100 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+        class="w-48 flex items-center space-x-2 text-sm bg-gray-100 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        hx-on:click="let m=htmx.find('#invoice-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
         <i class="fas fa-plus text-black"></i><span class="text-black">Añadir Factura</span>
       </button>
       <button
-        class="w-48 flex items-center space-x-2 text-sm bg-gray-100 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+        class="w-48 flex items-center space-x-2 text-sm bg-gray-100 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        hx-on:click="let m=htmx.find('#payment-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
         <i class="fas fa-plus text-black"></i>
         <span class="text-black">Añadir Pago</span>
       </button>
@@ -36,7 +38,8 @@
     <!-- Bottom section (settings button) -->
     <div class="pt-4">
       <button id="open-settings-modal"
-        class="w-48 flex items-center space-x-2 text-sm bg-gray-100 p-2 rounded-lg hover:bg-gray-600 transition-colors">
+        class="w-48 flex items-center space-x-2 text-sm bg-gray-100 p-2 rounded-lg hover:bg-gray-600 transition-colors"
+        hx-on:click="let m=htmx.find('#settings-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
         <i class="fas fa-gear text-black"></i>
         <span class="text-black">Ajustes</span>
       </button>

@@ -71,19 +71,23 @@
       <h3 class="text-lg font-semibold mb-4">Acceso Rápido</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <button
-          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors"
+          hx-on:click="let m=htmx.find('#invoice-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
           <span>📝</span><span>+ Nueva Factura</span>
         </button>
         <button
-          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors"
+          hx-on:click="let m=htmx.find('#payment-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
           <span>📄</span><span>+ Nuevo Pago</span>
         </button>
         <button
-          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors"
+          hx-on:click="htmx.find('#import-file').click()">
           <span>🛩️</span><span>Importar Datos</span>
         </button>
         <button
-          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors">
+          class="flex items-center justify-center space-x-2 bg-gray-700 p-4 rounded-lg text-sm hover:bg-gray-600 transition-colors"
+          hx-on:click="let m=htmx.find('#export-modal'); m.classList.remove('hidden'); m.classList.add('flex')">
           <span>✈️</span><span>Exportar Datos</span>
         </button>
       </div>
@@ -103,7 +107,9 @@
           </div>
           <div class="flex justify-end space-x-2">
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition-colors">Exportar</button>
-            <button type="button" id="close-export-modal" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
+            <button type="button" id="close-export-modal"
+              hx-on:click="let m=htmx.find('#export-modal'); m.classList.add('hidden'); m.classList.remove('flex')"
+              class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">Cancelar</button>
           </div>
         </form>
       </div>
